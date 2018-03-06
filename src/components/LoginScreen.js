@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, StyleSheet, Text, View,TextInput,Image } from 'react-native';
+import { StyleSheet, Text, View,TextInput,Image } from 'react-native';
 import AuthButton from './AuthButton';
 import {loginFetch, logout, userFetch,getInputDataUsername,getInputDataPassword} from './LoginActions';
 import { NavigationActions } from 'react-navigation';
 import { reduxForm, Field } from 'redux-form';
-import TInput from './TInput'
+import TInput from './TInput';
+import { Button } from "native-base";
 const styles = StyleSheet.create({
   welcome: {
     fontSize: 20,
@@ -79,11 +80,16 @@ const LoginScreen = ({ navigation,loginFetch,getInputData }) => {
         onSubmitEditing={loginFetch}
         
       />
+      <View style={{flex:1}}>
+        <Button block
+          onPress={loginFetch}
+          title="Log in"
+          style={{backgroundColor:'#FF5E3A',marginBottom:10,marginLeft:15,marginRight:10,borderRadius:7}}
+        >
+          <Text style={{fontSize:16,fontWeight:'bold'}}>Login</Text>
+        </Button>
+      </View>
       
-      <Button
-        onPress ={loginFetch}
-        title="Log in"
-      />
       
     </View>
   </View>);

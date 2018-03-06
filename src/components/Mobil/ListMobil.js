@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, Image } from 'react-native';
-import { Container,Content, Footer,FooterTab,Left,Body,Card,CardItem,Button } from 'native-base';
+import {  View, Image } from 'react-native';
+import { Text,Container,Content, Footer,FooterTab,Left,Body,Right,Card,CardItem,Button } from 'native-base';
 import { connect } from 'react-redux';
 import { getListMobil,getSelectedAddress } from "./MobilActions";
 import styles from './SearchResultsStyles';
@@ -39,11 +39,17 @@ class ListMobil extends React.Component{
 						  	</CardItem>	
 						  	<CardItem >
 							  <Left style={styles.leftContainer}>
-								  
+								  <Text style={styles.primaryText}>{item.harga}</Text>	
 							  </Left>
 							  <Body>
-								  <Text style={styles.primaryText}>{item.harga}</Text>	
+								  
+								  
 							  </Body>
+							  <Right>
+							  	<Button primary onPress={()=>{alert('pesan di klik',item.id)}}>
+									  <Text>Pesan</Text>
+								  </Button>
+							  </Right>
 						  	</CardItem>	
 					  	</View>
 				  	}

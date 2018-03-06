@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
   Platform,
@@ -12,7 +6,7 @@ import {
   View
 } from 'react-native';
 import { Provider } from 'react-redux';
-
+import { PersistGate } from 'redux-persist/lib/integration/react';
 import { compose, createStore, applyMiddleware } from 'redux';
 
 import AppReducer from './src/reducers';
@@ -20,7 +14,7 @@ import AppWithNavigationState from './src/navigators/AppNavigator';
 import { middleware } from './src/utils/redux';
 import thunk from 'redux-thunk';
 import {createLogger} from 'redux-logger';
-
+import {persistStore} from 'redux-persist';
 
 const log =  createLogger({ diff: true, collapsed: true });
 
@@ -32,21 +26,16 @@ const store = createStore(
   ),
   
 );
+export const persistor = persistStore(store);
 
-
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-type Props = {};
-export default class App extends Component<Props> {
+//type Props = {};
+export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <AppWithNavigationState />
+        <PersistGate loading={null} persistor={persistor}>
+          <AppWithNavigationState />
+        </PersistGate>
       </Provider>
     );
   }

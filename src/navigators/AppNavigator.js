@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 
-import Login from '../components/Login';
+
 import MainScreen from '../components/MainScreen';
+import Login from '../components/Login';
 import PesanMobil from '../components/Mobil/PesanMobil';
 
 import Mobil from '../components/Mobil/Mobil';
@@ -13,12 +14,14 @@ import ListMobil from '../components/Mobil/ListMobil';
 import { addListener } from '../utils/redux';
 
 export const AppNavigator = StackNavigator({
-  Login: { screen: Login },
   Main: { screen: MainScreen },
+  Login: { screen: Login },
   Mobil: { screen:Mobil },
   PesanMobil: { screen: PesanMobil },
   ListMobil:{ screen: ListMobil},
   Profile: { screen: ProfileScreen },
+},{
+  initialRouteName: 'Login',
 });
 
 class AppWithNavigationState extends React.Component {

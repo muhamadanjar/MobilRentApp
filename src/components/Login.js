@@ -1,18 +1,17 @@
 import React from "react";
 import {View, Text, AsyncStorage } from "react-native";
+
 import { connect } from 'react-redux';
 import {
 	loginFetch, logout, userFetch, getInputData
 } from "./LoginActions";
 import LoginScreen from './LoginScreen';
 class Login extends React.Component{
-	constructor(){
-		super();
-		
-	}
+	
     componentDidMount() {
 		console.log(this.props.userFetch);
-		
+		alert(this.props.user);
+		console.log(this.getData());
 	}
 	componentDidUpdate(prevProps, prevState) {
         
@@ -27,6 +26,9 @@ class Login extends React.Component{
 			
 		</View>);
     }
+	async getData(){
+    	return await AsyncStorage.getItem("@App:user");
+	}
 }
 
 Login.navigationOptions = {
@@ -37,6 +39,8 @@ Login.navigationOptions = {
 
 const mapStateToProps = (state) => ({
 	inputData:state.auth.inputData || {},
+	isLoggedIn:state.auth.isLoggedIn,
+	token:state.auth.token
 });
 
 const mapActionCreators = {

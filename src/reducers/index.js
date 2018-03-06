@@ -5,25 +5,26 @@ import { Dimensions, Keyboard } from "react-native";
 import { AppNavigator } from '../navigators/AppNavigator';
 import { AsyncStorage } from 'react-native';
 import { persistReducer } from 'redux-persist';
+import { REHYDRATE } from 'redux-persist';
 // Start with two routes: The Main screen, with the Login screen on top.
 const firstAction = AppNavigator.router.getActionForPathAndParams('Main');
-const tempNavState = AppNavigator.router.getStateForAction(firstAction);
 const secondAction = AppNavigator.router.getActionForPathAndParams('Login');
+const tempNavState = AppNavigator.router.getStateForAction(firstAction);
 const initialNavState = AppNavigator.router.getStateForAction(
   secondAction,
-  tempNavState
+  tempNavState,
 );
 
 const rootPersistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  blacklist: ['auth']
+  blacklist: ['']
 }
 
 const authPersistConfig = {
   key: 'auth',
   storage: AsyncStorage,
-  blacklist: ['somethingTemporary']
+  blacklist: ['isLoggedIn']
 }
 
 function nav(state = initialNavState, action) {
@@ -84,18 +85,26 @@ const initialAuthState = { isLoggedIn: false,user:{},token:null,email:null,passw
 
 function auth(state = initialAuthState, action) {
   switch (action.type) {
-    case 'Login':
-      return { ...state, isLoggedIn: true,user:action.payload};
+    /*case 'Login':
+      return { ...state, isLoggedIn: true,user:action.payload};*/
+    case REHYDRATE:
+      return {
+        ...state,
+        user: action.payload
+      };
     case 'LOGIN_SUCCESS':
-      AsyncStorage.setItem('@token', action.payload.token);
-      AsyncStorage.setItem('@user', action.payload.user);
-      return { ...state, isLoggedIn: true,token:action.payload.token,user:action.payload.user};
+      AsyncStorage.setItem('@App:token', action.payload.response.data.token);
+      AsyncStorage.setItem('@App:user', action.payload.response.data.user);
+      return { ...state, isLoggedIn: true,token:action.payload.response.data.token,user:action.payload.response.data.user};
     case 'LOGIN_REQUEST':
       return { ...state, email:action.payload.email,password:action.payload.password};
     case 'LOGIN_FAILURE':
       return { ...state, isLoggedIn:false,token:null,user:null}
     case 'Logout':
+      AsyncStorage.removeItem('@App:token');
+      AsyncStorage.removeItem('@App:user');
       return { ...state, isLoggedIn: false,user:{}};
+      
     case 'GET_INPUT_USERNAME':
       return { ...state, email:action.payload};
     case 'GET_INPUT_PASSWORD':
@@ -232,9 +241,9 @@ function mobil(state = initialMobilState, action) {
 }
 
 const AppReducer = combineReducers({
-  nav,
-  auth: persistReducer(authPersistConfig, auth),
-  mobil: persistReducer(authPersistConfig, mobil)
+  nav:nav,
+  auth:persistReducer(authPersistConfig,auth),
+  mobil:mobil
 });
 
 //export default AppReducer;

@@ -18,13 +18,13 @@ const initialNavState = AppNavigator.router.getStateForAction(
 const rootPersistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  blacklist: ['']
+  blacklist: ['mobil']
 }
 
 const authPersistConfig = {
   key: 'auth',
   storage: AsyncStorage,
-  blacklist: ['isLoggedIn']
+  blacklist: ['mobil']
 }
 
 function nav(state = initialNavState, action) {
@@ -81,7 +81,7 @@ function nav(state = initialNavState, action) {
   return nextState || state;
 }
 
-const initialAuthState = { isLoggedIn: false,user:{},token:null,email:null,password:null,inputData:{}};
+const initialAuthState = { isLoggedIn: false,isAuthentication:false,user:{},token:null,email:null,password:null,inputData:{}};
 
 function auth(state = initialAuthState, action) {
   switch (action.type) {
@@ -93,16 +93,16 @@ function auth(state = initialAuthState, action) {
         user: action.payload
       };
     case 'LOGIN_SUCCESS':
-      AsyncStorage.setItem('@App:token', action.payload.response.data.token);
-      AsyncStorage.setItem('@App:user', action.payload.response.data.user);
+      AsyncStorage.setItem('@token', action.payload.response.data.token);
+      AsyncStorage.setItem('@user', action.payload.response.data.user);
       return { ...state, isLoggedIn: true,token:action.payload.response.data.token,user:action.payload.response.data.user};
     case 'LOGIN_REQUEST':
       return { ...state, email:action.payload.email,password:action.payload.password};
     case 'LOGIN_FAILURE':
       return { ...state, isLoggedIn:false,token:null,user:null}
     case 'Logout':
-      AsyncStorage.removeItem('@App:token');
-      AsyncStorage.removeItem('@App:user');
+      AsyncStorage.removeItem('@token');
+      AsyncStorage.removeItem('@user');
       return { ...state, isLoggedIn: false,user:{}};
       
     case 'GET_INPUT_USERNAME':

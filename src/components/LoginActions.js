@@ -47,8 +47,6 @@ export function userFailure(auth, error){
 }
 
 
-
-
 export function loginFetch() {
     
     return (dispatch,store) => {
@@ -105,7 +103,7 @@ export function loginFailure(email, response) {
     }
 }
 export function logout(){
-    AsyncStorage.multiRemove(['user','token']);
+    
     return {
         type: 'Logout'
     }

@@ -1,6 +1,6 @@
 import { Dimensions } from "react-native";
 import RNGooglePlaces from "react-native-google-places";
-import calculateFare from "../../utils/fareCalculator.js";
+import {calculateFare,calculateFareInKM} from "../../utils/fareCalculator.js";
 import request from "../../utils/request";
 import update from "react-addons-update";
 import {MOBIL_URL} from '../../config/config';
@@ -102,7 +102,7 @@ export function getSelectedAddress(payload){
 				})
 			}
 			setTimeout(function(){
-				console.log(store().mobil);
+				//console.log(store().mobil);
 				if(store().mobil.selectedAddress.selectedPickUp && store().mobil.selectedAddress.selectedDropOff){
 					const fare = calculateFare(
 						dummyNumbers.baseFare,
@@ -112,6 +112,12 @@ export function getSelectedAddress(payload){
 						store().mobil.distanceMatrix.rows[0].elements[0].distance.value,
 						dummyNumbers.surge,
 					);
+
+					const fare2 = calculateFareInKM(
+						dummyNumbers.baseFare,
+						store().mobil.distanceMatrix.rows[0].elements[0].distance.value,
+					);
+					
 					dispatch({
 						type:'GET_FARE',
 						payload:fare
@@ -137,7 +143,11 @@ export function getListMobil(){
             }
         }).then(response => response.json())
         .then(json => {
-            console.log('JSON',json)
+			console.log('JSON',json,store().mobil);
+			const distanceInKM = (store().mobil.distanceMatrix.rows[0].elements[0].distance.value * 0.001);
+			for(i=0;i<json.length;i++){
+				json[i].harga = Math.round(distanceInKM * json[i].harga);
+			}
 			dispatch({
 				type:'GET_MOBIL_AVAILABLE',
 				payload:json

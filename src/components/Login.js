@@ -10,8 +10,8 @@ class Login extends React.Component{
 	
     componentDidMount() {
 		console.log(this.props.userFetch);
-		alert(this.props.user);
-		console.log(this.getData());
+		//alert(this.props.token);
+		//console.log(this.getData());
 	}
 	componentDidUpdate(prevProps, prevState) {
         
@@ -27,7 +27,7 @@ class Login extends React.Component{
 		</View>);
     }
 	async getData(){
-    	return await AsyncStorage.getItem("@App:user");
+    	return await AsyncStorage.getItem("@token");
 	}
 }
 
@@ -40,7 +40,8 @@ Login.navigationOptions = {
 const mapStateToProps = (state) => ({
 	inputData:state.auth.inputData || {},
 	isLoggedIn:state.auth.isLoggedIn,
-	token:state.auth.token
+	token:state.auth.token,
+	user:state.auth.user || {},
 });
 
 const mapActionCreators = {

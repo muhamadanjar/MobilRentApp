@@ -1,4 +1,4 @@
-const calculateFare = (baseFare, timeRate, time,  distanceRate, distance, surge)=>{
+export const calculateFare = (baseFare, timeRate, time,  distanceRate, distance, surge)=>{
 	const distanceInKm = distance * 0.001;
 	const timeInMin = time * 0.0166667;
 	const pricePerKm = timeRate * timeInMin;
@@ -7,4 +7,9 @@ const calculateFare = (baseFare, timeRate, time,  distanceRate, distance, surge)
 	return Math.round(totalFare);
 };
 
-export default calculateFare;
+export const calculateFareInKM = (baseFare, distance)=>{
+	const distanceInKm = distance * 0.001;
+	const pricePerMinute = baseFare * distanceInKm;
+	return Math.round(pricePerMinute);
+};
+

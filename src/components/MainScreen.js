@@ -32,13 +32,18 @@ const MainScreen = ({}) => {
         <Header>
           <Left />
             <Body>
-              <Title>Welcome</Title>
+              <Title>Halaman Utama</Title>
             </Body>
           <Right />
         </Header>
         <Content contentContainerStyle ={{
           justifyContent: 'center', alignItems: 'center',
           paddingTop: 40, paddingHorizontal: 10}}>
+          <MapView 
+            region={region}
+            provider={MapView.PROVIDER_GOOGLE}
+            style={styles.map}>
+          </MapView>
           <LoginStatusMessage />
           <Card>
             <CardItem>

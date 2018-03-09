@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-
+import { StyleSheet, View } from 'react-native';
+import {Header,Title,Text,Body,Container,Card,CardItem,Content,Left,Right,Button} from 'native-base';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -20,6 +20,7 @@ const ProfileScreen = () => (
     <Text style={styles.welcome}>
       Profile Screen
     </Text>
+    <Button dark block><Text>Logout</Text></Button>
   </View>
 );
 

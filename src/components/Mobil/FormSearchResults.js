@@ -2,7 +2,7 @@ import React from "react";
 import {Text} from "react-native";
 import { View, List, ListItem, Left, Body } from "native-base";
 
-//import Icon from "react-native-vector-icons/MaterialIcons";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 import styles from "./SearchResultsStyles.js";
 
@@ -18,7 +18,7 @@ export const FormSearchResults = ({predictions, getSelectedAddress})=> {
 						<View>
 							<ListItem onPress={()=>handleSelectedAddress(item.placeID)} button avatar>
 								<Left style={styles.leftContainer}>
-									
+									<Icon style={styles.leftIcon} name="location-on" />
 								</Left>
 								<Body>
 									<Text style={styles.primaryText}>{item.primaryText}</Text>

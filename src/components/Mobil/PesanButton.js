@@ -1,25 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button,StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { Button, Text } from 'native-base';
 import { NavigationActions } from 'react-navigation';
 const styles = StyleSheet.create({
 	button:{
     alignSelf:'stretch',
-    backgroundColor:'#ccc',
+    //backgroundColor:'#ccc',
     borderColor:'#000',
-    color:'#000',
+    //color:'#000',
     flex: 1,
     
 	},
 	
 });
-const PesanButton = ({ pesanMobil }) => (
-  <Button
+const PesanButton = ({ pesanMobil,title }) => (
+  <Button block light
     title={'Pesan'}
     onPress={pesanMobil}
     style={styles.button}
-  />
+  ><Text> {title} </Text></Button>
 );
 
 PesanButton.propTypes = {

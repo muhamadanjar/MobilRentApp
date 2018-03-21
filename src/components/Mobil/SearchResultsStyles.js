@@ -11,11 +11,11 @@ const styles = {
     },
     primaryText:{
         fontWeight: "bold",
-        color:"#373737"
+        //color:"#373737"
     },
     secondaryText:{
         fontStyle: "italic",
-        color:"#7D7D7D",
+        //color:"#7D7D7D",
     },
     leftContainer:{
         flexWrap: "wrap",
@@ -24,7 +24,7 @@ const styles = {
     },
     leftIcon:{
         fontSize:20,
-        color:"#7D7D7D",
+        //color:"#7D7D7D",
     },
     distance:{
         fontSize:12,

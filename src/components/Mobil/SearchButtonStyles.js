@@ -9,11 +9,7 @@ const styles = {
     },
     buttonInput:{
         backgroundColor: 'rgba(255, 255, 255, .10)',
-        /*borderColor: 'rgba(255, 255, 255, .75)',
-        borderWidth: 2,
-        borderRadius: 50,
-        paddingHorizontal: 40,
-        paddingVertical: 10,*/
+        
     },
 }
 

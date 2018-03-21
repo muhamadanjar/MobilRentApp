@@ -3,7 +3,7 @@ import RNGooglePlaces from "react-native-google-places";
 import {calculateFare,calculateFareInKM} from "../../utils/fareCalculator.js";
 import request from "../../utils/request";
 import update from "react-addons-update";
-import {MOBIL_URL} from '../../config/config';
+import {MOBIL_URL,BOOKING_URL} from '../../config/config';
 const { width, height } = Dimensions.get("window");
 
 const ASPECT_RATIO = width / height;
@@ -131,6 +131,27 @@ export function getSelectedAddress(payload){
 	}
 }
 
+
+function handleGetCurrentLocation(state, action){
+	return update(state, {
+		region:{
+			latitude:{
+				$set:action.payload.coords.latitude
+			},
+			longitude:{
+				$set:action.payload.coords.longitude
+			},
+			latitudeDelta:{
+				$set:LATITUDE_DELTA
+			},
+			longitudeDelta:{
+				$set:LONGITUDE_DELTA
+			}
+		}
+	})
+}
+
+
 export function getListMobil(){
 	return(dispatch, store)=>{
 		let userInput = store().mobil.resultTypes.pickUp ? store().mobil.inputData.pickUp : store().mobil.inputData.dropOff;
@@ -160,22 +181,42 @@ export function getListMobil(){
 	};
 }
 
+export function bookCar(item){
+	return (dispatch, store)=>{
+		const payload = JSON.stringify({
+				origin_address: store().mobil.selectedAddress.selectedPickUp.address,
+				origin: store().mobil.selectedAddress.selectedPickUp.name,
+				origin_latitude: store().mobil.selectedAddress.selectedPickUp.latitude,
+				origin_longitude: store().mobil.selectedAddress.selectedPickUp.latitude,
 
-function handleGetCurrentLocation(state, action){
-	return update(state, {
-		region:{
-			latitude:{
-				$set:action.payload.coords.latitude
-			},
-			longitude:{
-				$set:action.payload.coords.longitude
-			},
-			latitudeDelta:{
-				$set:LATITUDE_DELTA
-			},
-			longitudeDelta:{
-				$set:LONGITUDE_DELTA
-			}
-		}
-	})
+				destination_address: store().mobil.selectedAddress.selectedDropOff.address,
+				destination: store().mobil.selectedAddress.selectedDropOff.name,
+				destination_latitude: store().mobil.selectedAddress.selectedDropOff.latitude,
+				destination_longitude: store().mobil.selectedAddress.selectedDropOff.latitude,
+				customer_id:2,
+				fare: store().mobil.fare,
+				status: "pending",
+				mobil_id: item.id,
+				total_bayar: item.harga
+        });
+		fetch(BOOKING_URL,{
+            method:'POST',
+            headers: {
+				'Accept': 'application/json',
+                'Content-Type' : 'application/json'
+            },
+            body:payload
+        }).then(response => response.json())
+		.then(json => {
+			console.log(json);
+            dispatch({
+				type:'BOOK_CAR',
+				payload:json
+			});
+        })
+        .catch((error) => {
+            console.log('ERROR',error)
+        });
+		
+	}
 }

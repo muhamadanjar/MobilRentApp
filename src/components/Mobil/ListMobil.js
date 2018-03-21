@@ -1,17 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {  View, Image } from 'react-native';
+import {  View, Image,AsyncStorage } from 'react-native';
 import { Text,Container,Content, Footer,FooterTab,Left,Body,Right,Card,CardItem,Button,List } from 'native-base';
 import { connect } from 'react-redux';
-import { getListMobil,getSelectedAddress } from "./MobilActions";
+import { getListMobil,getSelectedAddress,bookCar } from "./MobilActions";
+import { getUserToken,getUserData } from "../LoginActions";
 import styles from './SearchResultsStyles';
 import Icon from "react-native-vector-icons/FontAwesome";
 import {calculateFareInKM} from "../../utils/fareCalculator";
 const cardImage = require("../../assets/img/rush.jpg");
-
+import { Spinner } from 'react-native-spinkit';
 class ListMobil extends React.Component{
 	componentDidMount() {
+		//console.log(this.props.getUserToken());
 		this.props.getListMobil();
+		
 	}
 	componentDidUpdate(prevProps, prevState) {
 	}
@@ -21,10 +24,10 @@ class ListMobil extends React.Component{
 		return (
 		<Container>
 			<Content padder>
+				
 				<List 
 				  	dataArray={mobil}
 				  	renderRow={(item)=> 
-						
 					  	<Card>
 						  	<CardItem header bordered>
 							  <Text>{item.no_plat}</Text>	
@@ -48,13 +51,12 @@ class ListMobil extends React.Component{
 								  
 							  </Body>
 							  <Right>
-							  	<Button primary onPress={()=>{alert('pesan di klik',item.id)}}>
+							  	<Button primary onPress={() => {this.props.bookCar(item)} }>
 									<Text>Pesan</Text>
 								</Button>
 							  </Right>
 						  	</CardItem>	
 					  	</Card>
-					  	
 				  	}
 			  	/>
 				
@@ -77,16 +79,19 @@ class ListMobil extends React.Component{
 	numberWithCommas(x) {
 		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}
+
 }
 const mapStateToProps = (state) => ({
 	fare:state.mobil.fare,
 	mobilavailable:state.mobil.mobilavailable || {},
-
 });
 
 const mapActionCreators = {
 	getListMobil,
 	getSelectedAddress,
+	getUserToken,
+	getUserData,
+	bookCar
 };
 
 ListMobil.propTypes = {

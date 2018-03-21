@@ -105,7 +105,7 @@ export function loginFailure(email, response) {
 export function logout(){
     
     return {
-        type: 'Logout'
+        type: 'LOGOUT_REQUEST'
     }
 }
 
@@ -128,6 +128,29 @@ export function getInputData(payload){
 	return{
 		type:'GET_INPUT',
 		payload
+	}
+}
+
+
+export function getUserData(){
+	try {
+		AsyncStorage.getItem('@user', (err, result) => {
+			console.log(result);
+			//return result;
+		});
+	  } catch (error) {
+		// Error retrieving data
+	}
+}
+
+export function getUserToken(){
+	try {
+		AsyncStorage.getItem('@token', (err, result) => {
+			console.log(result);
+			//return result;
+		});
+	  } catch (error) {
+		// Error retrieving data
 	}
 }
 

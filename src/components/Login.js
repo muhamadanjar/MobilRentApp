@@ -3,15 +3,25 @@ import {View, Text, AsyncStorage } from "react-native";
 
 import { connect } from 'react-redux';
 import {
-	loginFetch, logout, userFetch, getInputData
+	loginFetch, logout, userFetch, getInputData,
+	getUserToken
+	//getUserToken, getUserData
 } from "./LoginActions";
 import LoginScreen from './LoginScreen';
+import Logo from './Logo';
 class Login extends React.Component{
 	
     componentDidMount() {
-		console.log(this.props.userFetch);
+		//console.log(this.props.getUserToken());
 		//alert(this.props.token);
-		//console.log(this.getData());
+		try {
+			AsyncStorage.getItem('@token', (err, result) => {
+				console.log('token = ',result);
+				//return result;
+			});
+		  } catch (error) {
+			// Error retrieving data
+		}
 	}
 	componentDidUpdate(prevProps, prevState) {
         
@@ -23,11 +33,10 @@ class Login extends React.Component{
 				loginFetch={this.props.loginFetch}
 				navigation={this.props.navigation}
 			/>
-			
 		</View>);
     }
 	async getData(){
-    	return await AsyncStorage.getItem("@token");
+    	return await AsyncStorage.getItem("@user");
 	}
 }
 
@@ -46,7 +55,8 @@ const mapStateToProps = (state) => ({
 
 const mapActionCreators = {
 	getInputData,
-	loginFetch
+	loginFetch,
+	getUserToken
 };
 
 export default connect(mapStateToProps, mapActionCreators)(Login);

@@ -9,7 +9,7 @@ import Login from '../components/Login';
 import PesanMobil from '../components/Mobil/PesanMobil';
 
 import Mobil from '../components/Mobil/Mobil';
-import ProfileScreen from '../components/ProfileScreen';
+import Profil from '../components/Profil/Profil';
 import ListMobil from '../components/Mobil/ListMobil';
 import { addListener } from '../utils/redux';
 
@@ -19,7 +19,7 @@ export const AppNavigator = StackNavigator({
   Mobil: { screen:Mobil },
   PesanMobil: { screen: PesanMobil },
   ListMobil:{ screen: ListMobil},
-  Profile: { screen: ProfileScreen },
+  Profile: { screen: Profil },
 },{
   initialRouteName: 'Login',
 });

@@ -7,7 +7,7 @@ import { AsyncStorage } from 'react-native';
 import { persistReducer } from 'redux-persist';
 import { REHYDRATE } from 'redux-persist';
 // Start with two routes: The Main screen, with the Login screen on top.
-const firstAction = AppNavigator.router.getActionForPathAndParams('Main');
+const firstAction = AppNavigator.router.getActionForPathAndParams('Mobil');
 const secondAction = AppNavigator.router.getActionForPathAndParams('Login');
 const tempNavState = AppNavigator.router.getStateForAction(firstAction);
 const initialNavState = AppNavigator.router.getStateForAction(
@@ -42,7 +42,7 @@ function nav(state = initialNavState, action) {
         state
       );
       break;
-    case 'Logout':
+    case 'LOGOUT_REQUEST':
       nextState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'Login' }),
         state
@@ -93,18 +93,17 @@ function auth(state = initialAuthState, action) {
         user: action.payload
       };
     case 'LOGIN_SUCCESS':
-      AsyncStorage.setItem('@token', action.payload.response.data.token);
-      AsyncStorage.setItem('@user', action.payload.response.data.user);
+      AsyncStorage.setItem('@token', JSON.stringify(action.payload.response.data.token));
+      AsyncStorage.setItem('@user', JSON.stringify(action.payload.response.data.user));
       return { ...state, isLoggedIn: true,token:action.payload.response.data.token,user:action.payload.response.data.user};
     case 'LOGIN_REQUEST':
       return { ...state, email:action.payload.email,password:action.payload.password};
     case 'LOGIN_FAILURE':
       return { ...state, isLoggedIn:false,token:null,user:null}
-    case 'Logout':
+    case 'LOGOUT_REQUEST':
       AsyncStorage.removeItem('@token');
       AsyncStorage.removeItem('@user');
-      return { ...state, isLoggedIn: false,user:{}};
-      
+      return { ...state, isLoggedIn: false,user:{},token:false};
     case 'GET_INPUT_USERNAME':
       return { ...state, email:action.payload};
     case 'GET_INPUT_PASSWORD':
@@ -223,6 +222,12 @@ function mobil(state = initialMobilState, action) {
     case 'GET_FARE':
       return update(state, {
         fare:{
+          $set:action.payload
+        }
+      })
+    case 'GET_FARE2':
+      return update(state, {
+        fare2:{
           $set:action.payload
         }
       })

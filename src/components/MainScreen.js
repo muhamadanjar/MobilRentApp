@@ -6,6 +6,7 @@ import AuthButton from './AuthButton';
 import PesanButton from './Mobil/PesanButton';
 import PesanMobil from './Mobil/PesanMobil';
 import {Header,Title,Text,Body,Container,Card,CardItem,Content,Left,Right,Button} from 'native-base';
+import { NavigationActions } from 'react-navigation';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -57,11 +58,15 @@ const MainScreen = ({}) => {
               </Text>
             </CardItem>
           </Card>
-          <Button dark block
-            onPress= {() =>{ console.log()}} style= {{marginTop: 40}}>
-              <Text> Fetch Github Repos </Text>
-          </Button>
-          <PesanButton />
+         
+          <PesanButton title={'Mobil'} />
+          <PesanButton title={'Bus'} />
+          <Button
+            onPress={() =>
+              dispatch(NavigationActions.navigate({ routeName: 'Profile' }))}
+            title="Profile"
+            style={{position:'absolute'}}
+          />
           
         </Content>
     </Container>);

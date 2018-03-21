@@ -15,14 +15,19 @@ const styles = StyleSheet.create({
   },
 });
 
-const ProfileScreen = () => (
+const ProfileScreen = ({logout,profil,token})=> {
+  
+  return (
   <View style={styles.container}>
     <Text style={styles.welcome}>
-      Profile Screen
+      Selamat Datang {profil.name}
     </Text>
-    <Button dark block><Text>Logout</Text></Button>
+    <Button dark block
+      onPress={() =>logout()}
+    ><Text>Logout</Text></Button>
   </View>
-);
+  )
+};
 
 ProfileScreen.navigationOptions = {
   title: 'Profile',

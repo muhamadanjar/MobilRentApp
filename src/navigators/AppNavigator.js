@@ -5,6 +5,7 @@ import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 
 
 import MainScreen from '../components/MainScreen';
+import Main from '../components/Main';
 import Login from '../components/Login';
 import PesanMobil from '../components/Mobil/PesanMobil';
 
@@ -14,7 +15,7 @@ import ListMobil from '../components/Mobil/ListMobil';
 import { addListener } from '../utils/redux';
 
 export const AppNavigator = StackNavigator({
-  Main: { screen: MainScreen },
+  Main: { screen: Main },
   Login: { screen: Login },
   Mobil: { screen:Mobil },
   PesanMobil: { screen: PesanMobil },

@@ -5,7 +5,7 @@ import LoginStatusMessage from './LoginStatusMessage';
 import AuthButton from './AuthButton';
 import PesanButton from './Mobil/PesanButton';
 import PesanMobil from './Mobil/PesanMobil';
-import {Header,Title,Text,Body,Container,Card,CardItem,Content,Left,Right,Button} from 'native-base';
+import { Header,Title,Text,Body,Container,Card,CardItem,Content,Left,Right,Button } from 'native-base';
 import { NavigationActions } from 'react-navigation';
 const styles = StyleSheet.create({
   container: {
@@ -19,14 +19,15 @@ const styles = StyleSheet.create({
 	}
 });
 
-const MainScreen = ({}) => {
+const MainScreen = ({dispatch}) => {
   const region = {
     latitude:4.906694,
     longitude:95.3096745,
-    
     latitudeDelta:0.0922,
     longitudeDelta:0.042
   }
+  
+  
   return(
 
     <Container>
@@ -67,8 +68,11 @@ const MainScreen = ({}) => {
             title="Profile"
             style={{position:'absolute'}}
           />
+
+          
           
         </Content>
+        
     </Container>);
 };
 

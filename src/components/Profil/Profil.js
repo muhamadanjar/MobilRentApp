@@ -8,11 +8,9 @@ import {getUserData,getUserToken,logout} from '../LoginActions';
 
 class Profil extends React.Component{
 	componentDidMount() {
-		//console.log(this.props.getUserToken());
-		//alert(this.props.getUserToken());
 		try {
 			AsyncStorage.getItem('@token', (err, result) => {
-				alert(result);
+				console.log(result);
 				//return result;
 			});
 		  } catch (error) {
@@ -26,7 +24,6 @@ class Profil extends React.Component{
 		return (
 		<Container>
 			<Content padder>
-				
 				<ProfileScreen 
 				logout={this.props.logout} 
 				profil={this.props.user}

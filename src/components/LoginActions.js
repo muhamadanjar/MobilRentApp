@@ -46,14 +46,14 @@ export function userFailure(auth, error){
     }
 }
 
-
 export function loginFetch() {
     
     return (dispatch,store) => {
         console.log(store());
         let email = store().auth.inputData.username;
         let password = store().auth.inputData.password;
-        dispatch(loginRequest(email,password))
+        dispatch(loginRequest(email,password));
+        //dispatch(loadingRequest(true));
         return fetch(LOGIN_URL,{
             method:'POST',
             headers: {
@@ -68,14 +68,14 @@ export function loginFetch() {
         })
         .then(response => response.json())
         .then(json => {
-            console.log('json',email,json)
+            console.log('json',email,json);
+            dispatch(loadingRequest(true));
             if(json.hasOwnProperty('error'))
                 dispatch(loginFailure(email,json.message));
             else 
-                //AsyncStorage.multiSet(['token',json.token],['user',json.user]);    
-                //AsyncStorage.setItem('token',json.token)
-                //AsyncStorage.setItem('user', JSON.stringify(json.user));
+                
                 dispatch(loginSuccess(email,json));
+                //dispatch(loadingRequest(false));
 
         })
         .catch((error) => {
@@ -85,6 +85,7 @@ export function loginFetch() {
     }
 }
 export function loginRequest(email, password) {
+    
     return {
         type:'LOGIN_REQUEST',
         payload: { email, password}
@@ -129,6 +130,13 @@ export function getInputData(payload){
 		type:'GET_INPUT',
 		payload
 	}
+}
+
+export function loadingRequest(loading) {
+    return {
+        type:'LOADING_REQUEST',
+        payload: loading
+    }
 }
 
 

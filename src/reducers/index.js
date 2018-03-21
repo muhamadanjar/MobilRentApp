@@ -81,7 +81,14 @@ function nav(state = initialNavState, action) {
   return nextState || state;
 }
 
-const initialAuthState = { isLoggedIn: false,isAuthentication:false,user:{},token:null,email:null,password:null,inputData:{}};
+const initialAuthState = { 
+  isLoggedIn: false,
+  isAuthentication:false,
+  user:{},token:null,
+  email:null,password:null,
+  inputData:{},
+  
+};
 
 function auth(state = initialAuthState, action) {
   switch (action.type) {
@@ -244,12 +251,26 @@ function mobil(state = initialMobilState, action) {
       return state;
   }
 }
-
+const initialLoading = {loader:false};
+function loading(state = initialMobilState, action) {
+  switch (action.type) {
+    case 'LOADING_REQUEST':
+      return update(state, {
+        loader:{
+          $set:action.payload
+        }
+      })
+    default:
+      return state;
+  }
+}
 const AppReducer = combineReducers({
   nav:nav,
+  loading:loading,
   auth:persistReducer(authPersistConfig,auth),
   mobil:mobil
 });
+
 
 //export default AppReducer;
 export default persistReducer(rootPersistConfig, AppReducer)

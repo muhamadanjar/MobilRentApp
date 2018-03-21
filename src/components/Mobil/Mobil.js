@@ -4,6 +4,7 @@ import {View, Text} from "react-native";
 import { connect } from 'react-redux';
 import MobilFormContainer from "./MobilFormContainer";
 import ListMobil from "./ListMobil";
+
 import {
 	getCurrentLocation,
 	getInputData,
@@ -43,9 +44,9 @@ class Mobil extends React.Component{
 		const { status } = this.props.booking;
 		return(
 			<Container>
-					<View style={{flex:1}}>
-						
-						<MobilFormContainer region={this.props.region} 
+				<View style={{flex:1}}>
+					
+					<MobilFormContainer region={this.props.region} 
 							getInputData={this.props.getInputData}
 							toggleSearchResultModal={this.props.toggleSearchResultModal}
 							getAddressPredictions={this.props.getAddressPredictions}
@@ -56,20 +57,19 @@ class Mobil extends React.Component{
 							navigation={this.props.navigation}
 							//carMarker={carMarker}
 							//nearByDrivers={this.props.nearByDrivers}
-						/>
-						
-					</View>
-					<View >
-						<Footer>
-							<FooterTab style={{position:'relative',bottom:0}}>
-								<Button 
-									onPress={() => this.props.navigation.dispatch({ type: 'GET_PROCESS_ROUTE_MOBIL' })} 
-									style={{backgroundColor:'#FF5E3A',marginBottom:10,marginLeft:15,marginRight:10,borderRadius:7}}>
-									<Text style={{fontSize:16,fontWeight:'bold'}}>Cari</Text>
-								</Button>
-							</FooterTab>
-						</Footer>	
-					</View>
+					/>
+				</View>
+				<View >
+					<Footer>
+						<FooterTab style={{position:'relative',bottom:0}}>
+							<Button 
+								onPress={() => this.props.navigation.dispatch({ type: 'GET_PROCESS_ROUTE_MOBIL' })} 
+								style={{backgroundColor:'#FF5E3A',marginBottom:10,marginLeft:15,marginRight:10,borderRadius:7}}>
+								<Text style={{fontSize:16,fontWeight:'bold'}}>Cari</Text>
+							</Button>
+						</FooterTab>
+					</Footer>	
+				</View>
 			</Container>
 		);
 
@@ -90,6 +90,7 @@ const mapStateToProps = (state) => ({
 	booking:state.mobil.booking || {},
 	//nearByDrivers:state.mobil.nearByDrivers || []
 	mobilavailable:state.mobil.mobilavailable || {},
+	
 
 });
 

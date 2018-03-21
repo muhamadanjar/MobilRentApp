@@ -9,16 +9,13 @@ import { reduxForm, Field } from 'redux-form';
 import TInput from './TInput';
 import { Button } from "native-base";
 const styles = StyleSheet.create({
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
+  
 
   container : {
     flexGrow: 1,
     justifyContent:'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    flex: 1,
   },
 
   inputBox: {
@@ -43,7 +40,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const LoginScreen = ({ navigation,loginFetch,getInputData }) => {
+const LoginScreen = ({ navigation,loginFetch,getInputData,loader }) => {
   function handleInput(key, val){
 		getInputData({
 			key,
@@ -51,13 +48,14 @@ const LoginScreen = ({ navigation,loginFetch,getInputData }) => {
 		});
 	}
 
-  return(<View style={styles.container}>
+  return(<View>
     <View>
-      <Text style={styles.welcome}>
-        Login
+      <Text>
+        Login 
       </Text>
     </View>
     <View>
+      
       <TextInput
         placeholder='Username' 
         autoFocus={true}
@@ -68,7 +66,7 @@ const LoginScreen = ({ navigation,loginFetch,getInputData }) => {
         selectTextOnFocus={true}
        // onSubmitEditing={(event) => this.refs.password.focus()}
         returnKeyType={'next'}
-       
+        style={styles.inputBox}
       />
       <TextInput
         placeholder="Password"
@@ -86,6 +84,8 @@ const LoginScreen = ({ navigation,loginFetch,getInputData }) => {
         >
           <Text style={{fontSize:16,fontWeight:'bold'}}>Login</Text>
         </Button>
+        
+        
       </View>
       
       

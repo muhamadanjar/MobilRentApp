@@ -95,9 +95,10 @@ function auth(state = initialAuthState, action) {
     /*case 'Login':
       return { ...state, isLoggedIn: true,user:action.payload};*/
     case REHYDRATE:
+      console.log(REHYDRATE,action.payload)
       return {
         ...state,
-        user: action.payload
+        user: action.payload.user
       };
     case 'LOGIN_SUCCESS':
       AsyncStorage.setItem('@token', JSON.stringify(action.payload.response.data.token));

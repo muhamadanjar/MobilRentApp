@@ -45,7 +45,6 @@ export function userFailure(auth, error){
         payload: { auth, error}
     }
 }
-
 export function loginFetch() {
     
     return (dispatch,store) => {
@@ -53,18 +52,20 @@ export function loginFetch() {
         let email = store().auth.inputData.username;
         let password = store().auth.inputData.password;
         dispatch(loginRequest(email,password));
+        let body_ = JSON.stringify({
+            grant_type:'password',
+            username:email,
+            password:password,
+            scope:''
+        });
+        console.log(body_);
         //dispatch(loadingRequest(true));
         return fetch(LOGIN_URL,{
             method:'POST',
             headers: {
                 'Content-Type' : 'application/json'
             },
-            body: JSON.stringify({
-                grant_type:'password',
-                username:email,
-                password:password,
-                scope:''
-            })
+            body: body_
         })
         .then(response => response.json())
         .then(json => {
@@ -85,7 +86,6 @@ export function loginFetch() {
     }
 }
 export function loginRequest(email, password) {
-    
     return {
         type:'LOGIN_REQUEST',
         payload: { email, password}
@@ -103,14 +103,17 @@ export function loginFailure(email, response) {
         payload: { email, response }
     }
 }
+export function registerPageRequest(){
+    return {
+        type: 'Register',
+    }
+}
 export function logout(){
     
     return {
         type: 'LOGOUT_REQUEST'
     }
 }
-
-
 export function getInputDataUsername(username){
 	return{
 		type:'GET_INPUT_USERNAME',

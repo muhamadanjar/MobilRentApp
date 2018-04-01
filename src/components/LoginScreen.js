@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { StyleSheet, Text, View,TextInput,Image } from 'react-native';
+import { StyleSheet, Text,TextInput,Image,TouchableOpacity } from 'react-native';
 import AuthButton from './AuthButton';
 import {loginFetch, logout, userFetch,getInputDataUsername,getInputDataPassword} from './LoginActions';
 import { NavigationActions } from 'react-navigation';
 import { reduxForm, Field } from 'redux-form';
 import TInput from './TInput';
 import { Button } from "native-base";
+import { View, InputGroup, Input } from "native-base";
 const styles = StyleSheet.create({
   
-
   container : {
     flexGrow: 1,
     justifyContent:'center',
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const LoginScreen = ({ navigation,loginFetch,getInputData,loader }) => {
+const LoginScreen = ({ navigation,loginFetch,getInputData,loader,registerPageRequest }) => {
   function handleInput(key, val){
 		getInputData({
 			key,
@@ -48,35 +48,32 @@ const LoginScreen = ({ navigation,loginFetch,getInputData,loader }) => {
 		});
 	}
 
-  return(<View>
+  return(
     <View>
-      <Text>
-        Login 
-      </Text>
-    </View>
-    <View>
-      
-      <TextInput
-        placeholder='Username' 
-        autoFocus={true}
-        keyboardType="email-address"
-        style={styles.inputBox}
-        name={'email'}
-        onChangeText={handleInput.bind(this, "username")}
-        selectTextOnFocus={true}
-       // onSubmitEditing={(event) => this.refs.password.focus()}
-        returnKeyType={'next'}
-        style={styles.inputBox}
-      />
-      <TextInput
-        placeholder="Password"
-        secureTextEntry={true}
-        style={styles.inputBox}
-        onChangeText={handleInput.bind(this, "password")}
-        onSubmitEditing={loginFetch}
-        
-      />
-      <View style={{flex:1}}>
+      <View>
+        <InputGroup>
+						<Input 
+              placeholder="Username"
+              autoFocus={true}
+              keyboardType="email-address"
+              style={styles.inputBox}
+              onChangeText={handleInput.bind(this, "username")}
+              selectTextOnFocus={true}
+						/>
+		    </InputGroup>
+      </View>
+      <View>
+        <InputGroup>
+						<Input 
+              placeholder="Password"
+              secureTextEntry={true}
+              style={styles.inputBox}
+              onChangeText={handleInput.bind(this, "password")}
+              onSubmitEditing={loginFetch}
+						/>
+		    </InputGroup>
+      </View>
+      <View>
         <Button block
           onPress={loginFetch}
           title="Log in"
@@ -84,13 +81,13 @@ const LoginScreen = ({ navigation,loginFetch,getInputData,loader }) => {
         >
           <Text style={{fontSize:16,fontWeight:'bold'}}>Login</Text>
         </Button>
-        
-        
       </View>
-      
-      
+      <View style={{'flexGrow': 1,alignItems:'flex-end',justifyContent :'center',paddingVertical:16,flexDirection:'row'}}>
+					<Text>Belum Punya Akun?</Text>
+					<TouchableOpacity onPress={registerPageRequest}><Text> Daftar</Text></TouchableOpacity>
+			</View> 
     </View>
-  </View>);
+  );
 };
 
 

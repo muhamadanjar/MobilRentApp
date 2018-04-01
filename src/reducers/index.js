@@ -42,6 +42,12 @@ function nav(state = initialNavState, action) {
         state
       );
       break;
+    case 'REGISTER_SUCCESS':
+      nextState = AppNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: 'Login' }),
+        state
+      );
+      break;
     case 'LOGOUT_REQUEST':
       nextState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'Login' }),
@@ -69,6 +75,12 @@ function nav(state = initialNavState, action) {
     case 'ListMobil':
       nextState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'ListMobil' }),
+        state
+      );
+      break;
+    case 'Register':
+      nextState = AppNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: 'Register' }),
         state
       );
       break;
@@ -100,6 +112,7 @@ function auth(state = initialAuthState, action) {
         ...state,
         user: action.payload.user
       };
+      
     case 'LOGIN_SUCCESS':
       AsyncStorage.setItem('@token', JSON.stringify(action.payload.response.data.token));
       AsyncStorage.setItem('@user', JSON.stringify(action.payload.response.data.user));
@@ -128,6 +141,31 @@ function auth(state = initialAuthState, action) {
     default:
       return state;
   }
+}
+
+const initialRegisterState = { 
+  email:null,password:null,name:null,username:null,
+  inputData:{},
+  dataRegister:null,
+  error:null
+  
+};
+
+function register(state = initialRegisterState, action) {
+  switch (action.type) {
+    case 'GET_INPUT':
+      const { key, value } = action.payload;
+      return update(state, {
+        inputData:{
+          [key]:{
+            $set:value
+          }
+        }
+      });
+    default:
+      return state;
+  }
+    
 }
 
 const initialMobilState = {region:{}, inputData:{},resultTypes:{},selectedAddress:{},mobilavailable:{}};
@@ -253,7 +291,7 @@ function mobil(state = initialMobilState, action) {
   }
 }
 const initialLoading = {loader:false};
-function loading(state = initialMobilState, action) {
+function loading(state = initialLoading, action) {
   switch (action.type) {
     case 'LOADING_REQUEST':
       return update(state, {
@@ -268,10 +306,11 @@ function loading(state = initialMobilState, action) {
 const AppReducer = combineReducers({
   nav:nav,
   loading:loading,
+  register:register,
   auth:persistReducer(authPersistConfig,auth),
-  mobil:mobil
+  mobil:mobil,
+  
 });
-
 
 //export default AppReducer;
 export default persistReducer(rootPersistConfig, AppReducer)

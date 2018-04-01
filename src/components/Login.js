@@ -4,7 +4,7 @@ import {Container} from 'native-base';
 import { connect } from 'react-redux';
 import {
 	loginFetch, logout, userFetch, getInputData,
-	getUserToken,loadingRequest
+	getUserToken,loadingRequest,registerPageRequest
 	//getUserToken, getUserData
 } from "./LoginActions";
 import LoginScreen from './LoginScreen';
@@ -30,15 +30,19 @@ class Login extends React.Component{
 	}
     render(){
 		return(
-		<View style={{flex: 1,alignItems: 'center',}}>
-			<Loading loader={this.props.loader}/>
-			<LoginScreen getInputData={this.props.getInputData}
-				loginFetch={this.props.loginFetch}
-				navigation={this.props.navigation}
-				loader={this.props.loader}
-			/>
-			
-		</View>);
+		<Container>
+			<View style={{flex: 1}}>
+				<Loading loader={this.props.loader}/>
+				<LoginScreen getInputData={this.props.getInputData}
+					loginFetch={this.props.loginFetch}
+					navigation={this.props.navigation}
+					loader={this.props.loader}
+					registerPageRequest={this.props.registerPageRequest}
+				/>
+				
+			</View>
+		</Container>
+		);
     }
 	async getData(){
     	return await AsyncStorage.getItem("@user");
@@ -63,7 +67,8 @@ const mapActionCreators = {
 	getInputData,
 	loginFetch,
 	getUserToken,
-	loadingRequest
+	loadingRequest,
+	registerPageRequest
 };
 
 export default connect(mapStateToProps, mapActionCreators)(Login);

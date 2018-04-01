@@ -1,6 +1,6 @@
 import React from "react";
 import {View, AsyncStorage } from "react-native";
-import {Container,Content,Button,Text} from 'native-base';
+import {Container,Content,Button,Text,Card,CardItem,Body} from 'native-base';
 import {connect} from 'react-redux';
 
 import PesanButton from './Mobil/PesanButton';
@@ -17,10 +17,20 @@ class Main extends React.Component{
     render(){
 		return(
             <Container>
-                <Content>
+                <Content padder>
                     <LoginStatusMessage />
-                    <PesanButton title={'Mobil'} />
-                    <PesanButton title={'Bus'} />
+                    <Card>
+                        <CardItem>
+                            <Body>
+                                <PesanButton title={'Mobil'} />
+                            </Body>
+                        </CardItem>
+                        <CardItem>
+                            <Body>
+                                <PesanButton title={'Bus'} />
+                            </Body>
+                        </CardItem>
+                    </Card>
                 </Content>
             </Container>
         );

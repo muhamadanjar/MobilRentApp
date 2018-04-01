@@ -1,6 +1,7 @@
 const BASE_URL = 'http://10.0.2.2:8000'
 const API_URL = '/api'
 export const LOGIN_URL = BASE_URL + '/api/login'
+export const REGISTER_URL = BASE_URL + API_URL + '/register'
 export const USER_URL = BASE_URL + API_URL + '/user'
 export const MOBIL_URL = BASE_URL + API_URL + '/mobil'
 export const BOOKING_URL = BASE_URL + API_URL + '/bookings'

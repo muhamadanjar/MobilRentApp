@@ -21,7 +21,6 @@ export const FormSearchBox = ({getInputData, toggleSearchResultModal, getAddress
 				<View style={styles.inputWrapper}>
 					<Text style={styles.label}>PICK UP</Text>
 					<InputGroup>
-						
 						<Input 
 							onFocus={()=>toggleSearchResultModal("pickUp")}
 							style={styles.inputSearch}

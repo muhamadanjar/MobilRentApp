@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 
-
-import MainScreen from '../components/MainScreen';
 import Main from '../components/Main';
 import Login from '../components/Login';
+import Register from '../components/Register/Register';
 import PesanMobil from '../components/Mobil/PesanMobil';
 
 import Mobil from '../components/Mobil/Mobil';
@@ -17,6 +16,7 @@ import { addListener } from '../utils/redux';
 export const AppNavigator = StackNavigator({
   Main: { screen: Main },
   Login: { screen: Login },
+  Register:{ screen: Register},
   Mobil: { screen:Mobil },
   PesanMobil: { screen: PesanMobil },
   ListMobil:{ screen: ListMobil},

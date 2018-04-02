@@ -94,6 +94,7 @@ function nav(state = initialNavState, action) {
 }
 
 const initialAuthState = { 
+
   isLoggedIn: false,
   isAuthentication:false,
   user:{},token:null,
@@ -104,15 +105,13 @@ const initialAuthState = {
 
 function auth(state = initialAuthState, action) {
   switch (action.type) {
-    /*case 'Login':
-      return { ...state, isLoggedIn: true,user:action.payload};*/
-    case REHYDRATE:
-      console.log(REHYDRATE,action.payload)
+
+    /*case REHYDRATE:
+      console.log(action.payload);
       return {
         ...state,
         user: action.payload.user
-      };
-      
+      };*/
     case 'LOGIN_SUCCESS':
       AsyncStorage.setItem('@token', JSON.stringify(action.payload.response.data.token));
       AsyncStorage.setItem('@user', JSON.stringify(action.payload.response.data.user));

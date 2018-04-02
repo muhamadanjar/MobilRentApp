@@ -15,7 +15,7 @@ import {
 	getNearByDrivers,
 	getListMobil
 } from "./MobilActions";
-
+const carMarker = require("../../assets/img/carMarker.png");
 class Mobil extends React.Component{
 
 	componentDidMount() {
@@ -31,8 +31,8 @@ class Mobil extends React.Component{
 	componentDidUpdate(prevProps, prevState) {
         /*if (this.props.booking.status === "confirmed" ){
             Actions.trackDriver({type: "reset"});
-        }
-        this.props.getCurrentLocation();*/
+        }*/
+        //this.props.getCurrentLocation();
 	}
 	render(){
 		const region = {
@@ -45,8 +45,8 @@ class Mobil extends React.Component{
 		return(
 			<Container>
 				<View style={{flex:1}}>
-					
-					<MobilFormContainer region={this.props.region} 
+					{this.props.region.latitude &&
+						<MobilFormContainer region={this.props.region} 
 							getInputData={this.props.getInputData}
 							toggleSearchResultModal={this.props.toggleSearchResultModal}
 							getAddressPredictions={this.props.getAddressPredictions}
@@ -55,10 +55,13 @@ class Mobil extends React.Component{
 							getSelectedAddress={this.props.getSelectedAddress}
 							selectedAddress={this.props.selectedAddress}
 							navigation={this.props.navigation}
-							//carMarker={carMarker}
+							carMarker={carMarker}
+							getCurrentLocation={this.props.getCurrentLocation}
 							//nearByDrivers={this.props.nearByDrivers}
-					/>
+						/>
+					}
 				</View>
+					
 				<View >
 					<Footer>
 						<FooterTab style={{position:'relative',bottom:0}}>
@@ -70,6 +73,7 @@ class Mobil extends React.Component{
 						</FooterTab>
 					</Footer>	
 				</View>
+				
 			</Container>
 		);
 

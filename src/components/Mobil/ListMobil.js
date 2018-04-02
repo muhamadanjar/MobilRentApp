@@ -14,7 +14,6 @@ class ListMobil extends React.Component{
 	componentDidMount() {
 		//console.log(this.props.getUserToken());
 		this.props.getListMobil();
-		
 	}
 	componentDidUpdate(prevProps, prevState) {
 	}
@@ -24,7 +23,6 @@ class ListMobil extends React.Component{
 		return (
 		<Container>
 			<Content padder>
-				
 				<List 
 				  	dataArray={mobil}
 				  	renderRow={(item)=> 
@@ -59,7 +57,6 @@ class ListMobil extends React.Component{
 					  	</Card>
 				  	}
 			  	/>
-				
 		  	</Content>
 			<Footer>
 				<FooterTab style={styles.footerContainer} >

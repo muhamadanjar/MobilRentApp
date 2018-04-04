@@ -11,6 +11,8 @@ import PesanMobil from '../components/Mobil/PesanMobil';
 import Mobil from '../components/Mobil/Mobil';
 import Profil from '../components/Profil/Profil';
 import ListMobil from '../components/Mobil/ListMobil';
+//import TrackDriver from '../components/TrackDriver/components/TrackDriver';
+import TrackDriver from '../components/TrackDriver/TrackDriver';
 import { addListener } from '../utils/redux';
 
 export const AppNavigator = StackNavigator({
@@ -21,6 +23,8 @@ export const AppNavigator = StackNavigator({
   PesanMobil: { screen: PesanMobil },
   ListMobil:{ screen: ListMobil},
   Profile: { screen: Profil },
+  TrackDriver: { screen: TrackDriver },
+  
 },{
   initialRouteName: 'Login',
 });

@@ -289,6 +289,64 @@ function mobil(state = initialMobilState, action) {
       return state;
   }
 }
+const initialTrackDriverState = {
+	region:{},
+	showDriverFound:true
+};
+function trackdriver(state = initialTrackDriverState, action) {
+  switch (action.type) {
+    case 'GET_CURRENT_LOCATION':
+      return update(state, {
+        region:{
+          latitude:{
+            $set:action.payload.coords.latitude
+          },
+          longitude:{
+            $set:action.payload.coords.longitude
+          },
+          latitudeDelta:{
+            $set:LATITUDE_DELTA
+          },
+          longitudeDelta:{
+            $set:LONGITUDE_DELTA
+          }
+        }
+      })
+    case 'GET_DRIVER_INFORMATION':
+      return update(state, {
+        driverInfo:{
+          $set:action.payload
+        }
+      });
+    case 'UPDATE_DRIVER_LOCATION':
+      return update(state, {
+        driverLocation:{
+          $set:action.payload
+        }
+      });
+    case 'GET_DRIVER_LOCATION':
+      return update(state, {
+        driverLocation:{
+          $set:action.payload
+        },
+        showDriverFound:{
+          $set:false
+        },
+        showCarMaker:{
+          $set:true
+        }
+    
+      });
+    case 'GET_DISTANCE_FROM_DRIVER':
+      return update(state, {
+        distanceFromDriver:{
+          $set:action.payload
+        }
+      });
+    default:
+      return state;
+  }
+}
 const initialLoading = {loader:false};
 function loading(state = initialLoading, action) {
   switch (action.type) {
@@ -308,7 +366,7 @@ const AppReducer = combineReducers({
   register:register,
   auth:persistReducer(authPersistConfig,auth),
   mobil:mobil,
-  
+  trackdriver:trackdriver
 });
 
 //export default AppReducer;

@@ -74,10 +74,7 @@ export function loginFetch() {
             if(json.hasOwnProperty('error'))
                 dispatch(loginFailure(email,json.message));
             else 
-                
                 dispatch(loginSuccess(email,json));
-                //dispatch(loadingRequest(false));
-
         })
         .catch((error) => {
             console.log('ERROR',error)

@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import {  View, Image,AsyncStorage } from 'react-native';
 import { Text,Container,Content, Footer,FooterTab,Left,Body,Right,Card,CardItem,Button,List } from 'native-base';
 import { connect } from 'react-redux';
-import { getListMobil,getSelectedAddress,bookCar } from "./MobilActions";
+import { getListMobil,getSelectedAddress,bookCar,changeStatusCar } from "./MobilActions";
 import { getUserToken,getUserData } from "../LoginActions";
 import styles from './SearchResultsStyles';
 import Icon from "react-native-vector-icons/FontAwesome";
 import {calculateFareInKM} from "../../utils/fareCalculator";
-const cardImage = require("../../assets/img/rush.jpg");
 import { Spinner } from 'react-native-spinkit';
+const cardImage = require("../../assets/img/rush.jpg");
 class ListMobil extends React.Component{
 	componentDidMount() {
 		//console.log(this.props.getUserToken());
@@ -28,8 +28,7 @@ class ListMobil extends React.Component{
 				  	renderRow={(item)=> 
 					  	<Card>
 						  	<CardItem header bordered>
-							  <Text>{item.no_plat}</Text>	
-							  <Text>{item.merk} - {item.type}</Text>	
+							  <Text style={styles.primaryText}>{item.name}</Text>	
 						  	</CardItem>
 						  	<CardItem cardBody>
 							  	<Image style={{
@@ -38,21 +37,32 @@ class ListMobil extends React.Component{
 								  height:200,
 								  flex:1
 								  }}
-								  source={cardImage}
+								  source={{uri:"{item.foto}"}}
 							  	/>
+						  	</CardItem>
+							  <CardItem >
+								<Icon active size={20} name={'car'} color={"#FF5E3A"} />
+								<Text>{item.merk}</Text>
+						  	</CardItem>
+							<CardItem >
+								<Icon active size={20} name={'calendar'} color={"#FF5E3A"} />
+								<Text>{item.no_plat}</Text>
+						  	</CardItem>
+							<CardItem >
+								<Icon active size={20} name={'calendar'} color={"#FF5E3A"} />
+								<Text>{item.tahun}</Text>
+						  	</CardItem>		
+							<CardItem >
+								<Icon active size={20} name={'money'} color={"#FF5E3A"} />
+								<Text style={styles.primaryText}>Rp.{this.numberWithCommas(item.harga)}</Text>
 						  	</CardItem>	
-						  	<CardItem >
-							  <Left style={styles.leftContainer}>
-								  <Text style={styles.primaryText}>Rp.{this.numberWithCommas(item.harga)}</Text>	
-							  </Left>
-							  <Body>
-								  
-							  </Body>
-							  <Right>
-							  	<Button primary onPress={() => {this.props.bookCar(item)} }>
-									<Text>Pesan</Text>
-								</Button>
-							  </Right>
+						  	
+							<CardItem >
+								<Body>
+									<Button block primary onPress={() => {this.props.bookCar(item)}} style={{backgroundColor:'#FF5E3A'}}>
+										<Text>Pesan</Text>
+									</Button>
+								</Body>
 						  	</CardItem>	
 					  	</Card>
 				  	}
@@ -88,7 +98,8 @@ const mapActionCreators = {
 	getSelectedAddress,
 	getUserToken,
 	getUserData,
-	bookCar
+	bookCar,
+	changeStatusCar
 };
 
 ListMobil.propTypes = {

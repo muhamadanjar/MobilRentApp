@@ -208,15 +208,55 @@ export function bookCar(item){
             body:payload
         }).then(response => response.json())
 		.then(json => {
-			console.log(json);
+			console.log('Mobil ID',json);
             dispatch({
 				type:'BOOK_CAR',
 				payload:json
 			});
+			dispatch(changeStatusCar(json.mobil_id));
         })
         .catch((error) => {
             console.log('ERROR',error)
         });
 		
 	}
+}
+//get nearby drivers
+
+export function getNearByDrivers(){
+	return(dispatch, store)=>{
+		request.get("http://localhost:3000/api/driverLocation")
+		.query({
+			latitude:3.145909,
+			longitude:101.696985	
+		})
+		.finish((error, res)=>{
+			if(res){
+				dispatch({
+					type:GET_NEARBY_DRIVERS,
+					payload:res.body
+				});
+			}
+
+		});
+	};
+}
+export function changeStatusCar(mobilid){
+	return(dispatch, store)=>{
+		alert(mobilid)
+		request.get(MOBIL_URL+'/'+mobilid+'/status')
+		.query({
+			mobilid:mobilid
+		})
+		.finish((error, res)=>{
+			console.log(error);
+			if(res){
+				dispatch({
+					type:'CHANGE_MOBIL_STATUS',
+					payload:res
+				});
+			}
+
+		});
+	};
 }

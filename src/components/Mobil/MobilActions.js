@@ -187,18 +187,19 @@ export function bookCar(item){
 				origin_address: store().mobil.selectedAddress.selectedPickUp.address,
 				origin: store().mobil.selectedAddress.selectedPickUp.name,
 				origin_latitude: store().mobil.selectedAddress.selectedPickUp.latitude,
-				origin_longitude: store().mobil.selectedAddress.selectedPickUp.latitude,
+				origin_longitude: store().mobil.selectedAddress.selectedPickUp.longitude,
 
 				destination_address: store().mobil.selectedAddress.selectedDropOff.address,
 				destination: store().mobil.selectedAddress.selectedDropOff.name,
 				destination_latitude: store().mobil.selectedAddress.selectedDropOff.latitude,
-				destination_longitude: store().mobil.selectedAddress.selectedDropOff.latitude,
+				destination_longitude: store().mobil.selectedAddress.selectedDropOff.longitude,
 				customer_id:2,
 				fare: store().mobil.fare,
 				status: "pending",
 				mobil_id: item.id,
 				total_bayar: item.harga
-        });
+		});
+		console.log(payload);
 		fetch(BOOKING_URL,{
             method:'POST',
             headers: {
@@ -212,6 +213,10 @@ export function bookCar(item){
             dispatch({
 				type:'BOOK_CAR',
 				payload:json
+			});
+			dispatch({
+				type:'GET_SELECTED_CAR',
+				payload:json.mobil_id
 			});
 			dispatch(changeStatusCar(json.mobil_id));
         })
@@ -241,22 +246,62 @@ export function getNearByDrivers(){
 		});
 	};
 }
+export function checkStatusPesanan(){
+	return(dispatch, store)=>{
+		let URL = BOOKING_URL+'/'+store().mobil.selectedCar+'/checkstatus';
+		console.log(URL);
+		setInterval(function(){
+			
+			fetch(URL,{
+				method:'GET',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type' : 'application/json'
+				},
+			}).then(response => response.json())
+			.then(json => {
+				dispatch({
+					type:'CHECK_STATUS_BOOK',
+					payload:json
+				});
+			}).catch((error) => {
+				console.log('ERROR',error)
+			});
+		},10000);
+	};
+}
 export function changeStatusCar(mobilid){
 	return(dispatch, store)=>{
-		alert(mobilid)
-		request.get(MOBIL_URL+'/'+mobilid+'/status')
-		.query({
-			mobilid:mobilid
-		})
-		.finish((error, res)=>{
-			console.log(error);
-			if(res){
-				dispatch({
-					type:'CHANGE_MOBIL_STATUS',
-					payload:res
-				});
-			}
-
+		fetch(MOBIL_URL+'/'+mobilid+'/status',{
+            headers: {
+				'Accept': 'application/json',
+                'Content-Type' : 'application/json'
+            },
+        }).then(response => response.json())
+		.then(json => {
+			dispatch({
+				type:'CHANGE_MOBIL_STATUS',
+				payload:json.status
+			});
 		});
+
 	};
+}
+
+export function cancelPesanan(){
+	return(dispatch,store) =>{
+		dispatch({
+			type:'BOOKING_CANCELED',
+			payload:'cancelled'
+		});
+	}
+}
+
+export function confirmPesanan(){
+	return(dispatch,store) =>{
+		dispatch({
+			type:'BOOKING_CONFIRMED',
+			payload:'confirmed'
+		});
+	}
 }

@@ -6,9 +6,10 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import styles from "./FindDriverStyles.js";
 
 var Spinner = require("react-native-spinkit");
-export const FindDriver = ({selectedAddress})=>{
-
+export const FindDriver = ({selectedAddress,mobilid,checkStatusPesanan,cancelPesanan})=>{
+	
 	const { selectedPickUp, selectedDropOff }  = selectedAddress || {};
+	checkStatusPesanan();
 	return (
 		<View style={styles.findDriverContainer} >
 
@@ -16,7 +17,7 @@ export const FindDriver = ({selectedAddress})=>{
 			<View style={styles.content}>
 				<Text style={styles.text}> Processing your request</Text>
 				<Icon style={styles.locationIcon} name="map-marker"/>
-
+				
 				<View style={styles.pickup}>
 					<Text>{ selectedPickUp.name}</Text>
 				</View>
@@ -28,9 +29,8 @@ export const FindDriver = ({selectedAddress})=>{
 				<View>
 					
 					<Text style={styles.termsText}>By booking you confirm that you accept our T & C</Text>
-					<Button style={styles.cancelBtn}>
+					<Button style={styles.cancelBtn} onPress={cancelPesanan}>
 						<Text style={styles.cancelBtnText}>Cancel</Text>
-
 					</Button>
 				</View>
 				

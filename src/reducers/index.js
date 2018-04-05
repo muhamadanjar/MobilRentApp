@@ -282,9 +282,31 @@ function mobil(state = initialMobilState, action) {
           $set:action.payload
         }
       })
-    /*case 'BOOK_CAR':
-    case 'GET_NEARBY_DRIVERS':
-    case 'BOOKING_CONFIRMED':*/
+    case 'GET_SELECTED_CAR':
+      return update(state, {
+        selectedCar:{
+          $set:action.payload
+        }
+      })
+    case 'BOOK_CAR':
+      return update(state, {
+        booking:{
+          $set:action.payload.status
+        }
+      })
+    case 'BOOKING_CANCELED':
+      return update(state, {
+        booking:{
+          $set:action.payload.status
+        }
+      })
+    case 'BOOKING_CONFIRMED':
+      return update(state, {
+        booking:{
+          $set:action.payload.status
+        }
+      })
+    /*case 'GET_NEARBY_DRIVERS':*/
     default:
       return state;
   }

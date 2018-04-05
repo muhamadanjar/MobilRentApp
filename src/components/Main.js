@@ -27,7 +27,7 @@ class Main extends React.Component{
                         </CardItem>
                         <CardItem>
                             <Body>
-                                <PesanButton title={'Bus'} />
+                                <PesanButton title={'Taxi'} />
                             </Body>
                         </CardItem>
                     </Card>
@@ -45,7 +45,8 @@ Main.navigationOptions = {
 };
 
 const mapStateToProps = (state) => ({
-	loader:state.loading.loader || false,
+    loader:state.loading.loader || false,
+    booking:state.mobil.booking || {},
 });
 
 const mapActionCreators = {

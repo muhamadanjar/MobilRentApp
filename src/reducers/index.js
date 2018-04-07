@@ -90,6 +90,11 @@ function nav(state = initialNavState, action) {
           NavigationActions.navigate({ routeName: 'TrackDriver' }),
           state
         );
+      }else if(action.payload === "cancelled"){
+        nextState = AppNavigator.router.getStateForAction(
+          NavigationActions.navigate({ routeName: 'Main' }),
+          state
+        );
       }
       break;
     default:
@@ -293,7 +298,7 @@ function mobil(state = initialMobilState, action) {
     case 'GET_SELECTED_CAR':
       return update(state, {
         selectedCar:{
-          $set:action.payload.mobil_id
+          $set:action.payload
         },
         currentSewa:{
           $set:action.payload.id

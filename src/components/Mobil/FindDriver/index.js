@@ -6,7 +6,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import styles from "./FindDriverStyles.js";
 
 var Spinner = require("react-native-spinkit");
-export const FindDriver = ({selectedAddress,mobilid,checkStatusPesanan,cancelPesanan})=>{
+export const FindDriver = ({selectedAddress,selectedCar,checkStatusPesanan,cancelPesanan})=>{
 	
 	const { selectedPickUp, selectedDropOff }  = selectedAddress || {};
 	checkStatusPesanan();

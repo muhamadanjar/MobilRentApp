@@ -194,7 +194,7 @@ export function bookCar(item){
 				destination: store().mobil.selectedAddress.selectedDropOff.name,
 				destination_latitude: store().mobil.selectedAddress.selectedDropOff.latitude,
 				destination_longitude: store().mobil.selectedAddress.selectedDropOff.longitude,
-				customer_id:store().auth().id,
+				customer_id:store().auth.user.id,
 				fare: store().mobil.fare,
 				status: "pending",
 				mobil_id: item.id,
@@ -211,14 +211,15 @@ export function bookCar(item){
         }).then(response => response.json())
 		.then(json => {
 			console.log('Mobil ID',json);
-            dispatch({
-				type:'BOOK_CAR',
-				payload:json
-			});
 			dispatch({
 				type:'GET_SELECTED_CAR',
 				payload:json.mobil
 			});
+            dispatch({
+				type:'BOOK_CAR',
+				payload:json
+			});
+			
 			dispatch(changeStatusCar(json.mobil_id));
         })
         .catch((error) => {
@@ -266,7 +267,7 @@ export function changeStatusCar(mobilid){
 }
 export function checkStatusPesanan(){
 	return(dispatch, store)=>{
-		let URL = BOOKING_URL+'/'+store().mobil.selectedCar+'/checkstatus';
+		let URL = BOOKING_URL+'/'+store().mobil.selectedCar.id+'/checkstatus';
 		console.log(URL);
 		let intervalstatus = setInterval(function(){
 			fetch(URL,{
@@ -285,10 +286,7 @@ export function checkStatusPesanan(){
 				console.log('ERROR',error)
 			});
 		},10000);
-		dispatch({
-			type:'GET_INTERVAL_BOOK',
-			payload:intervalstatus
-		})
+		
 	};
 }
 export function changeStatusPesanan(st){
@@ -321,13 +319,15 @@ export function changeStatusPesanan(st){
 }
 export function cancelPesanan(){
 	return(dispatch,store) =>{
-		fetch(BOOKING_URL+'/'+store().mobil.selectedCar.id+'/cancelled',{
-            method:'POST',
+		let URL = BOOKING_URL+'/'+store().mobil.booking.id+'/cancelled';
+		console.log(URL)
+		fetch(URL,{
+            method:'GET',
             headers: {
 				'Accept': 'application/json',
                 'Content-Type' : 'application/json'
             },
-            body:payload
+            //body:payload
         }).then(response => response.json())
 		.then(json => {
 			dispatch({

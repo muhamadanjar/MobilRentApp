@@ -13,7 +13,7 @@ const ASPECT_RATIO = width / height;
 
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = ASPECT_RATIO * LATITUDE_DELTA;
-
+import {MOBIL_URL} from '../../config/config';
 
 //--------------------
 //Actions
@@ -37,8 +37,26 @@ export function getCurrentLocation(){
 
 export function getDriverInfo(){
 	return (dispatch, store)=>{
-		let id = store().mobil.selectedCar.user_id;
+		let id = store().mobil.selectedCar.id;
 		console.log('getDriverInfo',id)
+		let URL = MOBIL_URL+'/'+id+'/driverinfo';
+			console.log(URL);
+				fetch(URL,{
+					method:'GET',
+					headers: {
+						'Accept': 'application/json',
+						'Content-Type' : 'application/json'
+					},
+				}).then(response => response.json())
+				.then(data => {
+					dispatch({
+						type:'GET_DRIVER_INFORMATION',
+						payload:data
+					});
+				}).catch((error) => {
+					console.log('ERROR',error)
+				});
+			
 		/*request.get("http://localhost:3000/api/driver/" + id)
 		.finish((erroe, res)=>{
 			dispatch({
@@ -53,7 +71,7 @@ export function getDriverInfo(){
 //Get initial driver location
 export function getDriverLocation(){
 	return (dispatch, store)=>{
-		let id = store().home.booking.mobil.user_id;
+		let id = store().mobil.booking.mobil.user_id;
 		console.log(id);
 		/*request.get("http://localhost:3000/api/driverLocation/" + id)
 		.finish((erroe, res)=>{

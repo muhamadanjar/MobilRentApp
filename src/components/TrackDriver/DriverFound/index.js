@@ -6,7 +6,7 @@ import styles from "./DriverFoundStyles.js";
 
 export const DriverFound = ({ driverInfo, getDriverLocation})=>{
 	const { profilePic } = driverInfo || "";
-	const { vehicle } = driverInfo || {};
+	const { mobil } = driverInfo || {};
 	return (
 		<View style={styles.findDriverContainer}>
 			<View style={styles.content}>
@@ -29,7 +29,7 @@ export const DriverFound = ({ driverInfo, getDriverLocation})=>{
 				</View>
 				<View style={styles.vehicleDetails}>
 					<Text style={styles.vehicleText}>Vehicle Plate number:</Text>
-					<Text style={styles.vehicleNumber}> {vehicle && vehicle.no_plat}</Text>
+					<Text style={styles.vehicleNumber}> {mobil && mobil.no_plat}</Text>
 					<Button  style={styles.nextBtn} onPress={()=>getDriverLocation()}>
 						<Text style={styles.nextBtnText}>Next</Text>
 					</Button>

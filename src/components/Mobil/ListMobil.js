@@ -44,7 +44,7 @@ class ListMobil extends React.Component{
 									height:200,
 									flex:1
 									}}
-									source={{uri:"{item.foto}"}}
+									source={{uri:item.foto}}
 									/>
 								</CardItem>
 								<CardItem >
@@ -90,10 +90,9 @@ class ListMobil extends React.Component{
 			</View>
 			|| 
 				<FindDriver 
-					
 					checkStatusPesanan={this.props.checkStatusPesanan} 
 					selectedAddress={this.props.selectedAddress}
-					mobilid={this.props.selectedCar}
+					selectedCar={this.props.selectedCar}
 					cancelPesanan={this.props.cancelPesanan}
 				/>
 			}

@@ -20,7 +20,7 @@ class TrackDriver extends React.Component{
 	componentDidMount() {
 		this.props.getCurrentLocation();
 		this.props.getDriverInfo();
-		clearInterval(this.props.intervalbook);
+		clearInterval();
 	}
 	componentWillReceiveProps(nextProps) {
 		if(this.props.driverLocation && nextProps.driverLocation !== this.props.driverLocation){

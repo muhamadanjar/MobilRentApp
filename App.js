@@ -33,12 +33,21 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
+        
+          <AppWithNavigationState />
+        
+      </Provider>
+    );
+  }
+  /*render() {
+    return (
+      <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <AppWithNavigationState />
         </PersistGate>
       </Provider>
     );
-  }
+  }*/
 }
 
 const styles = StyleSheet.create({

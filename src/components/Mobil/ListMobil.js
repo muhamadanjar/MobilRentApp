@@ -15,6 +15,9 @@ class ListMobil extends React.Component{
 	componentDidMount() {
 		this.props.getListMobil();
 	}
+	componentWillUnmount(){
+
+	}
 	componentDidUpdate(prevProps, prevState) {
 		
 	}
@@ -24,7 +27,7 @@ class ListMobil extends React.Component{
 		const { status } = this.props.booking;
 		return (
 		<Container>
-			{ (this.props.booking !== "pending") &&
+			{ (status !== "pending") &&
 			<View style={{flex:1}}>
 				<Content padder>
 					<List 
@@ -87,6 +90,7 @@ class ListMobil extends React.Component{
 			</View>
 			|| 
 				<FindDriver 
+					
 					checkStatusPesanan={this.props.checkStatusPesanan} 
 					selectedAddress={this.props.selectedAddress}
 					mobilid={this.props.selectedCar}

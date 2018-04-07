@@ -20,6 +20,7 @@ class TrackDriver extends React.Component{
 	componentDidMount() {
 		this.props.getCurrentLocation();
 		this.props.getDriverInfo();
+		clearInterval(this.props.intervalbook);
 	}
 	componentWillReceiveProps(nextProps) {
 		if(this.props.driverLocation && nextProps.driverLocation !== this.props.driverLocation){
@@ -37,7 +38,6 @@ class TrackDriver extends React.Component{
 		return(
 			<Container>
 				<View style={{flex:1}}>
-					
 					{
 						this.props.region &&
 						<MapTrack
@@ -48,7 +48,6 @@ class TrackDriver extends React.Component{
 							carMarker={carMarker}
 
 						/>
-
 					}
 
 					{
@@ -80,15 +79,21 @@ class TrackDriver extends React.Component{
 	}
 }
 
-const mapStateToProps = (state) => ({
-	region: state.trackDriver.region,
-	selectedAddress:state.home.selectedAddress || {},
-	driverInfo:state.trackDriver.driverInfo || {},
-	driverLocation:state.trackDriver.driverLocation,
-	showDriverFound:state.trackDriver.showDriverFound,
-	showCarMaker:state.trackDriver.showCarMaker,
-	distanceFromDriver:state.trackDriver.distanceFromDriver || {}
+TrackDriver.navigationOptions = {
+	title: 'Tracking',
+	headerMode: 'none',
+	header:null
+};
 
+const mapStateToProps = (state) => ({
+	region: state.trackdriver.region,
+	selectedAddress:state.mobil.selectedAddress || {},
+	driverInfo:state.trackdriver.driverInfo || {},
+	driverLocation:state.trackdriver.driverLocation,
+	showDriverFound:state.trackdriver.showDriverFound,
+	showCarMaker:state.trackdriver.showCarMaker,
+	distanceFromDriver:state.trackdriver.distanceFromDriver || {},
+	intervalbook:state.mobil.intervalbook || {}
 });
 
 const mapActionCreators = {

@@ -37,14 +37,15 @@ export function getCurrentLocation(){
 
 export function getDriverInfo(){
 	return (dispatch, store)=>{
-		let id = store().home.booking.driverId;
-		request.get("http://localhost:3000/api/driver/" + id)
+		let id = store().mobil.selectedCar.user_id;
+		console.log('getDriverInfo',id)
+		/*request.get("http://localhost:3000/api/driver/" + id)
 		.finish((erroe, res)=>{
 			dispatch({
 				type:'GET_DRIVER_INFORMATION',
 				payload:res.body
 			});
-		});
+		});*/
 	}
 }
 
@@ -52,14 +53,15 @@ export function getDriverInfo(){
 //Get initial driver location
 export function getDriverLocation(){
 	return (dispatch, store)=>{
-		let id = store().home.booking.driverId;
-		request.get("http://localhost:3000/api/driverLocation/" + id)
+		let id = store().home.booking.mobil.user_id;
+		console.log(id);
+		/*request.get("http://localhost:3000/api/driverLocation/" + id)
 		.finish((erroe, res)=>{
 			dispatch({
 				type:'GET_DRIVER_LOCATION',
 				payload:res.body
 			});
-		});
+		});*/
 	}
 }
 
@@ -69,8 +71,8 @@ export function getDistanceFromDriver(){
 		if(store().trackDriver.driverLocation){
 			request.get("https://maps.googleapis.com/maps/api/distancematrix/json")
 			.query({
-				origins:store().home.selectedAddress.selectedPickUp.latitude + 
-				"," + store().home.selectedAddress.selectedPickUp.longitude,
+				origins:store().mobil.selectedAddress.selectedPickUp.latitude + 
+				"," + store().mobil.selectedAddress.selectedPickUp.longitude,
 				destinations:store().trackDriver.driverLocation.coordinate.coordinates[1] + 
 				"," + store().trackDriver.driverLocation.coordinate.coordinates[0],
 				mode:"driving",

@@ -182,6 +182,7 @@ export function getListMobil(){
 }
 
 export function bookCar(item){
+	console.log(item);
 	return (dispatch, store)=>{
 		const payload = JSON.stringify({
 				origin_address: store().mobil.selectedAddress.selectedPickUp.address,
@@ -193,7 +194,7 @@ export function bookCar(item){
 				destination: store().mobil.selectedAddress.selectedDropOff.name,
 				destination_latitude: store().mobil.selectedAddress.selectedDropOff.latitude,
 				destination_longitude: store().mobil.selectedAddress.selectedDropOff.longitude,
-				customer_id:2,
+				customer_id:store().auth().id,
 				fare: store().mobil.fare,
 				status: "pending",
 				mobil_id: item.id,
@@ -216,7 +217,7 @@ export function bookCar(item){
 			});
 			dispatch({
 				type:'GET_SELECTED_CAR',
-				payload:json.mobil_id
+				payload:json.mobil
 			});
 			dispatch(changeStatusCar(json.mobil_id));
         })
@@ -238,36 +239,12 @@ export function getNearByDrivers(){
 		.finish((error, res)=>{
 			if(res){
 				dispatch({
-					type:GET_NEARBY_DRIVERS,
+					type:'GET_NEARBY_DRIVERS',
 					payload:res.body
 				});
 			}
 
 		});
-	};
-}
-export function checkStatusPesanan(){
-	return(dispatch, store)=>{
-		let URL = BOOKING_URL+'/'+store().mobil.selectedCar+'/checkstatus';
-		console.log(URL);
-		setInterval(function(){
-			
-			fetch(URL,{
-				method:'GET',
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type' : 'application/json'
-				},
-			}).then(response => response.json())
-			.then(json => {
-				dispatch({
-					type:'CHECK_STATUS_BOOK',
-					payload:json
-				});
-			}).catch((error) => {
-				console.log('ERROR',error)
-			});
-		},10000);
 	};
 }
 export function changeStatusCar(mobilid){
@@ -287,13 +264,81 @@ export function changeStatusCar(mobilid){
 
 	};
 }
-
+export function checkStatusPesanan(){
+	return(dispatch, store)=>{
+		let URL = BOOKING_URL+'/'+store().mobil.selectedCar+'/checkstatus';
+		console.log(URL);
+		let intervalstatus = setInterval(function(){
+			fetch(URL,{
+				method:'GET',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type' : 'application/json'
+				},
+			}).then(response => response.json())
+			.then(json => {
+				dispatch({
+					type:'CHECK_STATUS_BOOK',
+					payload:json
+				});
+			}).catch((error) => {
+				console.log('ERROR',error)
+			});
+		},10000);
+		dispatch({
+			type:'GET_INTERVAL_BOOK',
+			payload:intervalstatus
+		})
+	};
+}
+export function changeStatusPesanan(st){
+	return(dispatch, store)=>{
+		let URL = BOOKING_URL+'/'+store().mobil.selectedCar+'/changestatus';
+		console.log(URL);
+		const data = JSON.stringify({
+			sewa_id:store().mobil.booking.id,
+			status:st,
+		});
+		
+			fetch(URL,{
+				method:'POST',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type' : 'application/json'
+				},
+				body:data
+			}).then(response => response.json())
+			.then(json => {
+				dispatch({
+					type:'CHANGE_STATUS_BOOK',
+					payload:json
+				});
+			}).catch((error) => {
+				console.log('ERROR',error)
+			});
+		
+	};
+}
 export function cancelPesanan(){
 	return(dispatch,store) =>{
-		dispatch({
-			type:'BOOKING_CANCELED',
-			payload:'cancelled'
-		});
+		fetch(BOOKING_URL+'/'+store().mobil.selectedCar.id+'/cancelled',{
+            method:'POST',
+            headers: {
+				'Accept': 'application/json',
+                'Content-Type' : 'application/json'
+            },
+            body:payload
+        }).then(response => response.json())
+		.then(json => {
+			dispatch({
+				type:'BOOKING_CANCELED',
+				payload:'cancelled'
+			});
+        })
+        .catch((error) => {
+            console.log('ERROR',error)
+        });
+		
 	}
 }
 

@@ -152,13 +152,10 @@ export function getUserData(){
 }
 
 export function getUserToken(){
-	try {
-		AsyncStorage.getItem('@token', (err, result) => {
-			console.log(result);
-			//return result;
-		});
-	  } catch (error) {
-		// Error retrieving data
-	}
+	
+        AsyncStorage.getItem('@token', (err, result) => {
+            console.log('token = ',result);
+            return result;
+        });
 }
 

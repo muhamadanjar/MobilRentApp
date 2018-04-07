@@ -30,7 +30,7 @@ const authPersistConfig = {
 function nav(state = initialNavState, action) {
   let nextState;
   switch (action.type) {
-    case 'Login':
+    case 'MAIN_PAGES':
       nextState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'Main' }),
         state
@@ -83,6 +83,14 @@ function nav(state = initialNavState, action) {
         NavigationActions.navigate({ routeName: 'Register' }),
         state
       );
+      break;
+    case 'CHECK_STATUS_BOOK':
+      if(action.payload === "confirmed"){
+        nextState = AppNavigator.router.getStateForAction(
+          NavigationActions.navigate({ routeName: 'TrackDriver' }),
+          state
+        );
+      }
       break;
     default:
       nextState = AppNavigator.router.getStateForAction(action, state);
@@ -285,28 +293,43 @@ function mobil(state = initialMobilState, action) {
     case 'GET_SELECTED_CAR':
       return update(state, {
         selectedCar:{
-          $set:action.payload
+          $set:action.payload.mobil_id
+        },
+        currentSewa:{
+          $set:action.payload.id
         }
       })
     case 'BOOK_CAR':
       return update(state, {
         booking:{
-          $set:action.payload.status
+          $set:action.payload
         }
       })
     case 'BOOKING_CANCELED':
       return update(state, {
         booking:{
-          $set:action.payload.status
+          status:{
+            $set:action.payload
+          }
         }
       })
     case 'BOOKING_CONFIRMED':
       return update(state, {
         booking:{
-          $set:action.payload.status
+          status:{
+            $set:action.payload
+          }
         }
       })
-    /*case 'GET_NEARBY_DRIVERS':*/
+    case 'GET_INTERVAL_BOOK':
+      return update(state, {
+        intervalbook:{
+          $set:action.payload
+        }
+      })
+      /*case 'GET_NEARBY_DRIVERS':*/
+    
+      
     default:
       return state;
   }
@@ -386,10 +409,11 @@ const AppReducer = combineReducers({
   nav:nav,
   loading:loading,
   register:register,
-  auth:persistReducer(authPersistConfig,auth),
+  //auth:persistReducer(authPersistConfig,auth),
+  auth:auth,
   mobil:mobil,
   trackdriver:trackdriver
 });
 
-//export default AppReducer;
-export default persistReducer(rootPersistConfig, AppReducer)
+export default AppReducer;
+//export default persistReducer(rootPersistConfig, AppReducer)

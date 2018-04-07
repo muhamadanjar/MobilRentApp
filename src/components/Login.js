@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import {
 	loginFetch, logout, userFetch, getInputData,
 	getUserToken,loadingRequest,registerPageRequest
-	//getUserToken, getUserData
 } from "./LoginActions";
 import LoginScreen from './LoginScreen';
 import Logo from './Logo';
@@ -13,8 +12,7 @@ import Loading from './Loading';
 class Login extends React.Component{
 	
     componentDidMount() {
-		//console.log(this.props.getUserToken());
-		//alert(this.props.token);
+		
 		this.props.loadingRequest(false);
 		try {
 			AsyncStorage.getItem('@token', (err, result) => {
@@ -24,6 +22,7 @@ class Login extends React.Component{
 		  } catch (error) {
 			// Error retrieving data
 		}
+		//this.props.getUserToken();
 	}
 	componentDidUpdate(prevProps, prevState) {
         

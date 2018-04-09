@@ -8,11 +8,7 @@ import styles from "./HeaderComponentStyles";
 export const HeaderComponent =  ({logo})=>{
 	return (
 		<Header style={{backgroundColor:"#FF5E3A"}} iosBarStyle="light-content">
-			<Left>
-				<Button transparent>
-					<Icon name="bars" style={styles.icon} />
-				</Button>
-			</Left>
+			
 			<Body>{logo &&
 					<Image resizeMode="contain" style={styles.logo} source={logo}/>
 					||
@@ -20,11 +16,6 @@ export const HeaderComponent =  ({logo})=>{
 				}
 			</Body>
 
-			<Right>
-				<Button transparent>
-					<Icon name="gift" style={styles.icon} />
-				</Button>
-			</Right>
 		</Header>
 	);
 }

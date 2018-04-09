@@ -3,23 +3,39 @@ import PropTypes from 'prop-types';
 import {  View, Image,AsyncStorage } from 'react-native';
 import { Text,Container,Content, Footer,FooterTab,Left,Body,Right,Card,CardItem,Button,List } from 'native-base';
 import { connect } from 'react-redux';
-import { getListMobil,getSelectedAddress,bookCar,changeStatusCar,checkStatusPesanan,cancelPesanan,confirmPesanan } from "./MobilActions";
-import { getUserToken,getUserData } from "../LoginActions";
+
 import styles from './SearchResultsStyles';
 import Icon from "react-native-vector-icons/FontAwesome";
 import {calculateFareInKM} from "../../utils/fareCalculator";
 import { Spinner } from 'react-native-spinkit';
 import FindDriver from './FindDriver';
-const cardImage = require("../../assets/img/rush.jpg");
+import HeaderComponent from '../HeaderComponent';
+
+import NavigationActions from 'react-navigation';
+import { 
+	getListMobil,getSelectedAddress,bookCar,getNearByDrivers,
+	changeStatusCar,checkStatusPesanan,cancelPesanan,confirmPesanan } from "./MobilActions";
+import { getUserToken,getUserData } from "../LoginActions";
+const taxiLogo = require("../../assets/img/taxi_logo.png");
+//import socketIOClient from "socket.io-client";
 class ListMobil extends React.Component{
 	componentDidMount() {
 		this.props.getListMobil();
+		//const socket = socketIOClient('http://127.0.0.1:9999');
+    	//socket.on("FromAPI", data => console.log(data));
 	}
 	componentWillUnmount(){
 
 	}
 	componentDidUpdate(prevProps, prevState) {
-		
+		if (this.props.booking.status === "confirmed" ){
+			//Actions.trackDriver({type: "reset"});
+			const resetAction = NavigationActions.reset({
+				index: 0,
+				actions: [NavigationActions.navigate({ routeName: 'TrackDriver' })],
+			});
+			this.props.nav.dispatch(resetAction);
+        }
 	}
 	render(){
 		const mobil = this.props.mobilavailable;
@@ -29,6 +45,7 @@ class ListMobil extends React.Component{
 		<Container>
 			{ (status !== "pending") &&
 			<View style={{flex:1}}>
+				<HeaderComponent logo={taxiLogo}/>
 				<Content padder>
 					<List 
 						dataArray={mobil}
@@ -44,6 +61,7 @@ class ListMobil extends React.Component{
 									height:200,
 									flex:1
 									}}
+									resizemode="contain"
 									source={{uri:item.foto}}
 									/>
 								</CardItem>
@@ -77,13 +95,9 @@ class ListMobil extends React.Component{
 				</Content>
 				<Footer>
 					<FooterTab style={styles.footerContainer} >
-						<Button>
-							<Icon size={20} name={'filter'} color={"#FF5E3A"} />
-							<Text style={{fontSize:12, color:"#FF5E3A"}}>Filter</Text>
-						</Button>
-						<Button>
-							<Icon size={20} name={'sort'} color={"#FF5E3A"} />
-							<Text style={{fontSize:12, color:"#FF5E3A"}}>Urutkan</Text>
+						<Button onPress={()=>{ console.log(this.props.nav) }}>
+							<Icon size={20} name={'arrow-left'} color={"#FF5E3A"} />
+							<Text style={{fontSize:12, color:"#FF5E3A"}}>Kembali</Text>
 						</Button>
 					</FooterTab>
 				</Footer>
@@ -105,11 +119,13 @@ class ListMobil extends React.Component{
 
 }
 const mapStateToProps = (state) => ({
+	nav:state.nav,
 	fare:state.mobil.fare,
 	mobilavailable:state.mobil.mobilavailable || {},
 	booking:state.mobil.booking || {},
 	selectedAddress:state.mobil.selectedAddress || {},
 	selectedCar:state.mobil.selectedCar || {},
+	nearByDrivers:state.mobil.nearByDrivers || [],
 });
 
 const mapActionCreators = {
@@ -118,6 +134,7 @@ const mapActionCreators = {
 	getUserToken,
 	getUserData,
 	bookCar,
+	getNearByDrivers,
 	changeStatusCar,
 	checkStatusPesanan,
 	cancelPesanan,
@@ -129,8 +146,9 @@ ListMobil.propTypes = {
 };
 
 ListMobil.navigationOptions = {
-  title: 'Mobil Tersedia',
-  //headerMode: 'none',
+	title: 'Mobil Tersedia',
+	headerMode: 'none',
+	header:null
 };
 
 export default connect(mapStateToProps, mapActionCreators)(ListMobil);

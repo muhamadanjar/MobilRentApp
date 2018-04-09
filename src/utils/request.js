@@ -12,7 +12,7 @@ var requestWrapper = function(method) {
     // this is here so that we can append the .timeout call to all of our ajax requests with the default value.
     return function(url) {
         return request[method](url)
-            .type("form")
+            .type("form").withCredentials()
             .timeout(defaultAjaxTimeout);
     };
 };

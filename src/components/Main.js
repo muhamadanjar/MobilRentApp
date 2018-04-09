@@ -2,10 +2,12 @@ import React from "react";
 import {View, AsyncStorage } from "react-native";
 import {Container,Content,Button,Text,Card,CardItem,Body} from 'native-base';
 import {connect} from 'react-redux';
-
+import HeaderComponent from './HeaderComponent';
 import PesanButton from './Mobil/PesanButton';
 import LoginStatusMessage from './LoginStatusMessage';
+import { Col, Row, Grid } from "react-native-easy-grid";
 import {loadingRequest} from './LoginActions';
+const taxiLogo = require("../assets/img/taxi_logo.png");
 class Main extends React.Component{
 	
     componentDidMount() {
@@ -17,20 +19,17 @@ class Main extends React.Component{
     render(){
 		return(
             <Container>
+                <HeaderComponent logo={taxiLogo}/>
                 <Content padder>
-                    <LoginStatusMessage />
-                    <Card>
-                        <CardItem>
-                            <Body>
-                                <PesanButton title={'Mobil'} />
-                            </Body>
-                        </CardItem>
-                        <CardItem>
-                            <Body>
-                                <PesanButton title={'Taxi'} />
-                            </Body>
-                        </CardItem>
-                    </Card>
+                    <Grid>
+                        <Row>
+                            <Col><LoginStatusMessage /></Col>
+                        </Row>
+                        <Row>
+                            <Col><PesanButton title={'Mobil'} icon={'car'} /></Col>
+                            <Col><PesanButton title={'Taxi'} icon={'taxi'} /></Col>
+                        </Row>
+                    </Grid>
                 </Content>
             </Container>
         );

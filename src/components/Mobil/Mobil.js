@@ -13,19 +13,21 @@ import {
 	getSelectedAddress,
 	bookCar,
 	getNearByDrivers,
-	getListMobil
+	getListMobil,
+	getPesananNotComplete
 } from "./MobilActions";
+import HeaderComponent from '../HeaderComponent';
 const carMarker = require("../../assets/img/carMarker.png");
+const taxiLogo = require("../../assets/img/taxi_logo.png");
 class Mobil extends React.Component{
 
 	componentDidMount() {
 		var rx = this;
 		this.props.getCurrentLocation();
-		//this.props.getListMobil();
-		//console.log(this.props.navigation);
 		setTimeout(function(){
-			//rx.props.getNearByDrivers();
-
+			console.log('get');
+			rx.props.getNearByDrivers();
+			
 		}, 1000);
 	}
 	componentDidUpdate(prevProps, prevState) {
@@ -45,6 +47,7 @@ class Mobil extends React.Component{
 		return(
 			<Container>
 				<View style={{flex:1}}>
+					<HeaderComponent logo={taxiLogo}/>
 					{this.props.region.latitude &&
 						<MobilFormContainer region={this.props.region} 
 							getInputData={this.props.getInputData}
@@ -57,7 +60,8 @@ class Mobil extends React.Component{
 							navigation={this.props.navigation}
 							carMarker={carMarker}
 							getCurrentLocation={this.props.getCurrentLocation}
-							//nearByDrivers={this.props.nearByDrivers}
+							nearByDrivers={this.props.nearByDrivers}
+							getPesananNotComplete={this.props.getPesananNotComplete}
 						/>
 					}
 				</View>
@@ -82,6 +86,7 @@ class Mobil extends React.Component{
 Mobil.navigationOptions = {
 	title: 'Cari Mobil',
 	headerMode: 'none',
+	header:null
 };
 
 const mapStateToProps = (state) => ({
@@ -92,10 +97,9 @@ const mapStateToProps = (state) => ({
 	selectedAddress:state.mobil.selectedAddress || {},
 	fare:state.mobil.fare,
 	booking:state.mobil.booking || {},
-	//nearByDrivers:state.mobil.nearByDrivers || []
+	nearByDrivers:state.mobil.nearByDrivers || [],
 	mobilavailable:state.mobil.mobilavailable || {},
-	
-
+	user:state.auth.user || {},
 });
 
 const mapActionCreators = {
@@ -105,7 +109,8 @@ const mapActionCreators = {
 	getAddressPredictions,
 	getSelectedAddress,
 	bookCar,
-	//getNearByDrivers,
+	getNearByDrivers,
 	getListMobil,
+	getPesananNotComplete
 };
 export default connect(mapStateToProps, mapActionCreators)(Mobil);

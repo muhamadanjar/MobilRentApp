@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { StyleSheet } from 'react-native';
 import { Button, Text } from 'native-base';
 import { NavigationActions } from 'react-navigation';
+import Icon from "react-native-vector-icons/FontAwesome";
 const styles = StyleSheet.create({
 	button:{
     alignSelf:'stretch',
@@ -15,12 +16,12 @@ const styles = StyleSheet.create({
 	},
 	
 });
-const PesanButton = ({ pesanMobil,title }) => (
-  <Button block light
+const PesanButton = ({ pesanMobil,title,icon }) => (
+  <Button block light iconLeft
     title={'Pesan'}
     onPress={pesanMobil}
     style={styles.button}
-  ><Text> {title} </Text></Button>
+  ><Icon name={icon} /><Text> {title} </Text></Button>
 );
 
 PesanButton.propTypes = {

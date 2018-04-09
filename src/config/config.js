@@ -1,4 +1,5 @@
-const BASE_URL = 'http://10.0.2.2:8000'
+const BASE_URL = 'http://192.168.43.98'
+//const BASE_URL = 'http://10.0.2.2:8000'
 const API_URL = '/api'
 export const LOGIN_URL = BASE_URL + '/api/login'
 export const REGISTER_URL = BASE_URL + API_URL + '/register'

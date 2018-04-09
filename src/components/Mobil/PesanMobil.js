@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Button,Text} from 'react-native';
 import { Container,Footer } from 'native-base';
 import { View, InputGroup, Input } from "native-base";
+
 import styles from './SearchBoxStyles';
 
 const PesanMobil = ({ navigation,getInputData, toggleSearchResultModal, getAddressPredictions, selectedAddress }) => {

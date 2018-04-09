@@ -16,13 +16,19 @@ import thunk from 'redux-thunk';
 import {createLogger} from 'redux-logger';
 import {persistStore} from 'redux-persist';
 
+import createSocketIoMiddleware from "redux-socket.io";
+
+import io from "socket.io-client/dist/socket.io";
+let socket = io("http://localhost:9000", {jsonp:false});
+let socketIoMiddleware = createSocketIoMiddleware(socket, "server2/");
+
 const log =  createLogger({ diff: true, collapsed: true });
 
 const store = createStore(
   AppReducer,
   {},
   compose(
-    applyMiddleware(middleware,thunk,log),
+    applyMiddleware(middleware,thunk,log,socketIoMiddleware),
   ),
   
 );
@@ -31,6 +37,7 @@ export const persistor = persistStore(store);
 //type Props = {};
 export default class App extends Component {
   render() {
+    
     return (
       <Provider store={store}>
         
@@ -39,7 +46,7 @@ export default class App extends Component {
       </Provider>
     );
   }
-  /*render() {
+  /*renderPersist() {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>

@@ -71,10 +71,15 @@ export function loginFetch() {
         .then(json => {
             console.log('json',email,json);
             dispatch(loadingRequest(true));
-            if(json.hasOwnProperty('error'))
+            if(json.hasOwnProperty('error')){
                 dispatch(loginFailure(email,json.message));
-            else 
+                setTimeout(function(){
+                    dispatch(loadingRequest(false));
+                },10000);
+                
+            }else{ 
                 dispatch(loginSuccess(email,json));
+            }
         })
         .catch((error) => {
             console.log('ERROR',error)

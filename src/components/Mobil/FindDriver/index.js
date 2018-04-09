@@ -9,7 +9,7 @@ var Spinner = require("react-native-spinkit");
 export const FindDriver = ({selectedAddress,selectedCar,checkStatusPesanan,cancelPesanan})=>{
 	
 	const { selectedPickUp, selectedDropOff }  = selectedAddress || {};
-	checkStatusPesanan();
+	//checkStatusPesanan();
 	return (
 		<View style={styles.findDriverContainer} >
 

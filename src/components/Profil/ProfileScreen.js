@@ -13,6 +13,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
   },
+  text: {
+    fontSize: 15,
+    textAlign: 'center',
+    margin: 10,
+  },
 });
 
 const ProfileScreen = ({logout,profil,token})=> {
@@ -21,6 +26,12 @@ const ProfileScreen = ({logout,profil,token})=> {
   <View style={styles.container}>
     <Text style={styles.welcome}>
       Selamat Datang {profil.name}
+    </Text>
+    <Text style={styles.text}>
+      {profil.email}
+    </Text>
+    <Text style={styles.text}>
+      {profil.customer.sex}
     </Text>
     <Button dark block
       onPress={() =>logout()}

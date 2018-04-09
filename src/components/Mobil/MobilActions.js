@@ -4,8 +4,8 @@ import {calculateFare,calculateFareInKM} from "../../utils/fareCalculator.js";
 import request from "../../utils/request";
 import update from "react-addons-update";
 import {MOBIL_URL,BOOKING_URL} from '../../config/config';
+import firebase from "../../config/firebase";
 const { width, height } = Dimensions.get("window");
-
 const ASPECT_RATIO = width / height;
 
 const LATITUDE_DELTA = 0.0922;
@@ -131,7 +131,6 @@ export function getSelectedAddress(payload){
 	}
 }
 
-
 function handleGetCurrentLocation(state, action){
 	return update(state, {
 		region:{
@@ -150,7 +149,6 @@ function handleGetCurrentLocation(state, action){
 		}
 	})
 }
-
 
 export function getListMobil(){
 	return(dispatch, store)=>{
@@ -184,7 +182,9 @@ export function getListMobil(){
 export function bookCar(item){
 	console.log(item);
 	return (dispatch, store)=>{
-		const payload = JSON.stringify({
+		//const nearByDrivers = store().mobil.nearByDrivers;
+		//const nearByDriver = nearByDrivers[Math.floor(Math.random() * nearByDrivers.length)];
+		const data = {
 				origin_address: store().mobil.selectedAddress.selectedPickUp.address,
 				origin: store().mobil.selectedAddress.selectedPickUp.name,
 				origin_latitude: store().mobil.selectedAddress.selectedPickUp.latitude,
@@ -198,8 +198,18 @@ export function bookCar(item){
 				fare: store().mobil.fare,
 				status: "pending",
 				mobil_id: item.id,
-				total_bayar: item.harga
-		});
+				total_bayar: item.harga,
+				/*nearByDriver:{
+					socketId:nearByDriver.socketId,
+					driverId:nearByDriver.driverId,
+					latitude:nearByDriver.coordinate.coordinates[1],
+					longitude:nearByDriver.coordinate.coordinates[0]
+				}*/
+		};
+		const order = firebase.database().ref('bookings').push();
+		data.keyuuid = order.key;
+		order.set(data);
+		const payload = JSON.stringify(data);
 		console.log(payload);
 		fetch(BOOKING_URL,{
             method:'POST',
@@ -218,8 +228,7 @@ export function bookCar(item){
             dispatch({
 				type:'BOOK_CAR',
 				payload:json
-			});
-			
+			});			
 			dispatch(changeStatusCar(json.mobil_id));
         })
         .catch((error) => {
@@ -232,10 +241,11 @@ export function bookCar(item){
 
 export function getNearByDrivers(){
 	return(dispatch, store)=>{
+		
 		request.get("http://localhost:3000/api/driverLocation")
 		.query({
-			latitude:3.145909,
-			longitude:101.696985	
+			latitude:-6.3252738,
+			longitude:106.0764884	
 		})
 		.finish((error, res)=>{
 			if(res){
@@ -244,6 +254,7 @@ export function getNearByDrivers(){
 					payload:res.body
 				});
 			}
+			console.log(error);
 
 		});
 	};
@@ -266,10 +277,12 @@ export function changeStatusCar(mobilid){
 	};
 }
 export function checkStatusPesanan(){
+	var interval;
 	return(dispatch, store)=>{
 		let URL = BOOKING_URL+'/'+store().mobil.selectedCar.id+'/checkstatus';
 		console.log(URL);
-		let intervalstatus = setInterval(function(){
+		let status = store().mobil.booking.status;
+		interval = setInterval(function(){
 			fetch(URL,{
 				method:'GET',
 				headers: {
@@ -286,6 +299,10 @@ export function checkStatusPesanan(){
 				console.log('ERROR',error)
 			});
 		},10000);
+
+		if(status == 'confirmed'){
+			clearInterval(interval);
+		}
 		
 	};
 }
@@ -330,10 +347,16 @@ export function cancelPesanan(){
             //body:payload
         }).then(response => response.json())
 		.then(json => {
+			dispatch(changeStatusCar(store().mobil.booking.mobil_id));
 			dispatch({
 				type:'BOOKING_CANCELED',
 				payload:'cancelled'
 			});
+			dispatch({
+				type:'MAIN_PAGES',
+			});
+			
+			
         })
         .catch((error) => {
             console.log('ERROR',error)
@@ -341,12 +364,32 @@ export function cancelPesanan(){
 		
 	}
 }
-
 export function confirmPesanan(){
 	return(dispatch,store) =>{
 		dispatch({
 			type:'BOOKING_CONFIRMED',
 			payload:'confirmed'
 		});
+	}
+}
+export function getPesananNotComplete(customerId){
+	return(dispatch,store) =>{
+		fetch(BOOKING_URL+'/'+customerId+'/notcomplete',{
+            method:'GET',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Accept' :'application/json',
+                'Authorization' : 'Bearer '+auth.access_token
+            }
+        })
+        .then(response => response.json())
+        .then(json => {
+            console.log('JSON',json)
+            
+        })
+        .catch((error) => {
+            console.log('ERROR',error)
+            dispatch(userFailure(auth,error))
+        })
 	}
 }

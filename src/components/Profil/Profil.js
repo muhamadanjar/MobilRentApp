@@ -31,7 +31,10 @@ class Profil extends React.Component{
 				/>
 		  	</Content>
 			<Footer>
-				
+				<Button dark block
+					onPress={() =>logout()}
+					><Text>Logout</Text>
+				</Button>
 			</Footer>	
 	  	</Container>
 	  	);

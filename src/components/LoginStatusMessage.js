@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { Button } from 'native-base';
 import { NavigationActions } from 'react-navigation';
 
 const styles = StyleSheet.create({
@@ -21,12 +22,13 @@ const LoginStatusMessage = ({ isLoggedIn, dispatch }) => {
       <Text style={styles.welcome}>
         {'Anda sedang "logged in"'}
       </Text>
-      <Button
+      <Button block primary
         onPress={() =>
           dispatch(NavigationActions.navigate({ routeName: 'Profile' }))}
         title="Profile"
-        style={{position:'absolute'}}
-      />
+      >
+        <Text> Profil</Text>
+      </Button>
     </View>
   );
 };

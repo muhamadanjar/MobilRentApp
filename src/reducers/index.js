@@ -85,7 +85,7 @@ function nav(state = initialNavState, action) {
       );
       break;
     case 'CHECK_STATUS_BOOK':
-      if(action.payload === "confirmed"){
+      /*if(action.payload === "confirmed"){
         nextState = AppNavigator.router.getStateForAction(
           NavigationActions.navigate({ routeName: 'TrackDriver' }),
           state
@@ -95,7 +95,7 @@ function nav(state = initialNavState, action) {
           NavigationActions.navigate({ routeName: 'Main' }),
           state
         );
-      }
+      }*/
       break;
     default:
       nextState = AppNavigator.router.getStateForAction(action, state);
@@ -332,7 +332,12 @@ function mobil(state = initialMobilState, action) {
           $set:action.payload
         }
       })
-      /*case 'GET_NEARBY_DRIVERS':*/
+    case 'GET_NEARBY_DRIVERS':
+      return update(state, {
+        nearByDrivers:{
+          $set:action.payload
+        }
+      });
     
       
     default:

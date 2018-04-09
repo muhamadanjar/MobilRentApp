@@ -2,6 +2,7 @@ import React from "react";
 import {View, Text, AsyncStorage } from "react-native";
 import {Container} from 'native-base';
 import { connect } from 'react-redux';
+import HeaderComponent from '../HeaderComponent';
 import RegisterScreen from './RegisterScreen';
 import {
 	getInputData,registerFetch
@@ -18,6 +19,7 @@ class Register extends React.Component{
 		return(
 		<Container>
 			<View style={{flex: 1}}>
+				<HeaderComponent/>
                 <RegisterScreen 
 					getInputData={this.props.getInputData}
 					registerFetch={this.props.registerFetch}
@@ -30,6 +32,8 @@ class Register extends React.Component{
 
 Register.navigationOptions = {
 	title: 'Daftar',
+	headerMode: 'none',
+	header:null
 	
 };
 

@@ -6,7 +6,7 @@ var pool    =    mysql.createPool({
     password          :   '',
     database          :   'rentalmobil',
     port: 3306,
-    debug             :   true
+    debug             :   false
 });
 
 module.exports = pool;

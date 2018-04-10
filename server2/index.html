@@ -8,12 +8,18 @@
     <script>
     $(document).ready(function(){
           var socket = io();
+          socket.emit('refresh feed','data');
           $("#add_status").click(function(){
             socket.emit('status added',$("#comment").val());
           });
-          socket.on('refresh feed',function(msg){
-            $("#show_comments").append(msg + '<br /><br />');
-          });
+          socket.on("checkstatus", function(data) {
+            $("#show_comments").append(data);
+          } );
+
+          socket.on('emit data',function(data){
+            alert(data);
+          })
+          
     });
     </script>
   </head>
